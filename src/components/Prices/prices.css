@@ -1,0 +1,70 @@
+#prices{
+    margin: 0 .4rem;
+    display: flex;
+    flex-wrap: wrap;    
+    /* background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("https://i.ibb.co/3TnxbXS/Whats-App-Image-2021-10-14-at-13-49-28-20.jpg"); */
+    background-attachment: fixed;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size:cover;
+    background-size: cover;
+    height: 100%;
+}
+
+.prices__container{
+    padding: 1.7rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+.prices__section{
+    box-sizing: border-box;
+    margin: 0 auto;
+    overflow-wrap: break-word;
+    padding: 3rem;
+    padding-bottom: 0;
+    width: 90%;
+}
+.prices__section--last-one{
+    padding-bottom: 3rem;
+}
+
+.height-25{
+    height: 25%;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.height-25--dont-break{
+    margin-bottom: 5rem; 
+}
+.prices__header2, .prices__header3, .prices__pragraph{
+    text-align: center;
+    overflow-wrap: break-word;
+}
+.prices__header2{
+    margin-bottom: 1.5rem;
+}
+.prices__header3{
+    margin-bottom: 1rem;
+} 
+.prices__pragraph{
+    margin-bottom: 2rem;
+    font-weight: bold;
+}
+.prices__pragraph--last{
+    margin-bottom: 0;
+}
+@media (min-width: 768px) {
+    #prices{
+        background-attachment: fixed;
+        background-position: center;
+        background-size: cover;
+    }
+    .prices__section{
+        width: 50%;
+    }    
+}
+@media (min-width: 1024px){
+    .prices__section{
+        width: 33%;
+    }   
+}
