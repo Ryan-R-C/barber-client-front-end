@@ -99,10 +99,7 @@ export default function Admin() {
                   </select>
                 </ContentFormNew>
 
-                <ContentFormNew>
-                  <label htmlFor="">Tipo de categoria</label>
-                  Não encontrou a sua categoria? adicione uma aqui.
-                </ContentFormNew>
+                
                 {loading ? (
                   <img
                     width="40px"
