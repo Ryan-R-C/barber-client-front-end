@@ -9,6 +9,7 @@ import { login } from '../../assets'
 import * as S from './SignIn.styled'
 import user from '../../service/user/user'
 import { token } from '../../service/api'
+import { SubmitButton } from '../../ui/components/SubmitButton'
 
 type FormData = {
   email: string
@@ -37,7 +38,7 @@ export default function SignIn() {
 
     if(!canLogin) return
     
-    window.location.pathname = '/admin'
+    window.location.pathname = '/'
 
   }
 
@@ -54,7 +55,7 @@ export default function SignIn() {
   return (
     <S.Container>
       <img src={login} alt='image sign in' />
-
+      
       <S.Content>
         <h1>Login</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -62,10 +63,8 @@ export default function SignIn() {
             label='E-mail'
             id='email'
             type='email'
-            
-            errorMessage={errors.email?.message}
-
             placeholder='examplo@gmail.com'
+            errorMessage={errors.email?.message}
             {...register('email', {
               required: {
                 value: true,
@@ -91,9 +90,7 @@ export default function SignIn() {
               <FiEye size={20} />
             </button>
           </S.Password>
-          <button type='submit' >
-            Login
-          </button>
+          <SubmitButton />
         </form>
         <Link to='/cadastro'>Cadastre-se</Link>
       </S.Content>
