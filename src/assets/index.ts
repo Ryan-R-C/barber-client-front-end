@@ -1,4 +1,4 @@
-export const login = './images/login.png'
+export const login = 'https://i.ibb.co/47Wc5LN/a.jpg'
 export const logo = '/logo.png'
 export const welcome = '/welcome.svg'
 export const setaesquerda = '/setaesquerda.svg'
