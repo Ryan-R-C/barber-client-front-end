@@ -31,7 +31,7 @@ html{
     font-size: 1.2rem;
     overflow-x: hidden;
 }
-span{
+.title-marker{
     color: var(--second-color);
     text-shadow: 2px 3px #000000 ;
 }
