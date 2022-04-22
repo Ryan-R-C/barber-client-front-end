@@ -1,12 +1,27 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import LandingPage from './pages/Home';
+
+import RoutesApp from './routes';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <>
-    <LandingPage/>
+    <RoutesApp/>
+
+    <ToastContainer
+        position='top-right'
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }
