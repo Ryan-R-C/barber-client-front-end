@@ -81,7 +81,7 @@ export default function Admin() {
     }
   }
   
-
+  // landing
   async function handleUpdateOrCreateLanding(rawData){
     let data = {
       titulo                 : rawData.titulo        , 
@@ -95,6 +95,22 @@ export default function Admin() {
     let isCreatedOrUpdated = landingService.create(data)
     console.log(isCreatedOrUpdated)
   }
+
+  async function handleUpdateOrCreateAbout(rawData){
+    let data = {
+      horFuncTitulo: rawData.horFuncTitulo,
+      enderecoTitulo: rawData.enderecoTitulo,
+      faleConoscoDesc: rawData.faleConoscoDesc,
+      horFuncDesc: rawData.horFuncDesc,
+      enderecoDesc: rawData.enderecoDesc,
+      faleConoscoTitulo: rawData.faleConoscoTitulo,
+    }
+
+    let isCreatedOrUpdated = landingService.create(data)
+    console.log(isCreatedOrUpdated)
+  }
+
+
     
 
    /*
@@ -313,6 +329,81 @@ export default function Admin() {
           ) 
           )
         }
+
+        {loading ? (
+            <img
+              width="40px"
+              style={{ margin: "auto" }}
+              height=""
+              src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
+              alt="Loading"
+            />
+          ) : (
+            <SubmitButton
+            title="Enviar"
+            />
+          )}
+      </ModalContent>
+
+      <ModalContent
+      onSubmit={(e) => {
+        e.preventDefault()
+        
+      }}
+      >
+        <h2>
+          Mídias Sociais
+        </h2>
+
+
+        <h3>
+          Horário de Funcionamento
+        </h3>
+        
+          <ContentFormNew>
+            <label htmlFor="">Título</label>
+            <input type="text"/>
+
+            <label htmlFor="">Descrição</label>
+            <input type="text"/>
+          </ContentFormNew>
+        
+        <h3>
+          Endereço
+        </h3>
+        
+          <ContentFormNew>
+            <label htmlFor="">Título</label>
+            <input type="text"/>
+
+            <label htmlFor="">Descrição</label>
+            <input type="text"/>
+          </ContentFormNew>
+
+        <h3>
+          Fale Conosco
+        </h3>
+        
+          <ContentFormNew>
+            <label htmlFor="">Título</label>
+            <input type="text"/>
+
+            <label htmlFor="">Descrição</label>
+            <input type="text"/>
+          </ContentFormNew>
+
+        <h3>
+          Sobre
+        </h3>
+        
+          <ContentFormNew>
+            <label htmlFor="">Título</label>
+            <input type="text"/>
+
+            <label htmlFor="">Descrição</label>
+            <input type="text"/>
+          </ContentFormNew>
+         
 
         {loading ? (
             <img
