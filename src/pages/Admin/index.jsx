@@ -106,8 +106,10 @@ export default function Admin() {
       faleConoscoTitulo: rawData.faleConoscoTitulo,
     }
 
-    let isCreatedOrUpdated = landingService.create(data)
-    console.log(isCreatedOrUpdated)
+    console.log(data)
+
+    // let isCreatedOrUpdated = landingService.create(data)
+    // console.log(isCreatedOrUpdated)
   }
 
 
@@ -346,15 +348,11 @@ export default function Admin() {
       </ModalContent>
 
       <ModalContent
-      onSubmit={(e) => {
-        e.preventDefault()
-        
-      }}
+      onSubmit={handleSubmit(handleUpdateOrCreateAbout)}
       >
         <h2>
-          Mídias Sociais
+          Sobre
         </h2>
-
 
         <h3>
           Horário de Funcionamento
@@ -362,11 +360,29 @@ export default function Admin() {
         
           <ContentFormNew>
             <label htmlFor="">Título</label>
-            <input type="text"/>
+            <input
+            type="text"
+            {...register('horFuncTitulo', {
+                required: {
+                  value: true,
+                  message: 'Todos os campos são obrigatórios',
+                },
+            })}
+            />
 
             <label htmlFor="">Descrição</label>
-            <input type="text"/>
+            <input
+            type="text"
+            {...register('horFuncDesc', {
+                required: {
+                  value: true,
+                  message: 'Todos os campos são obrigatórios',
+                },
+            })}
+            />
           </ContentFormNew>
+
+
         
         <h3>
           Endereço
@@ -374,10 +390,26 @@ export default function Admin() {
         
           <ContentFormNew>
             <label htmlFor="">Título</label>
-            <input type="text"/>
+            <input
+            type="text"
+            {...register('enderecoTitulo', {
+                required: {
+                  value: true,
+                  message: 'Todos os campos são obrigatórios',
+                },
+            })}
+            />
 
             <label htmlFor="">Descrição</label>
-            <input type="text"/>
+            <input
+            type="text"
+            {...register('enderecoDesc', {
+                required: {
+                  value: true,
+                  message: 'Todos os campos são obrigatórios',
+                },
+            })}
+            />
           </ContentFormNew>
 
         <h3>
@@ -386,10 +418,26 @@ export default function Admin() {
         
           <ContentFormNew>
             <label htmlFor="">Título</label>
-            <input type="text"/>
+            <input
+            type="text"
+            {...register('faleConoscoTitulo', {
+                required: {
+                  value: true,
+                  message: 'Todos os campos são obrigatórios',
+                },
+            })}
+            />
 
             <label htmlFor="">Descrição</label>
-            <input type="text"/>
+            <input
+            type="text"
+            {...register('faleConoscoDesc', {
+                required: {
+                  value: true,
+                  message: 'Todos os campos são obrigatórios',
+                },
+            })}
+            />
           </ContentFormNew>
 
         <h3>
@@ -398,10 +446,26 @@ export default function Admin() {
         
           <ContentFormNew>
             <label htmlFor="">Título</label>
-            <input type="text"/>
+            <input
+            type="text"
+            {...register('titulo', {
+                required: {
+                  value: true,
+                  message: 'Todos os campos são obrigatórios',
+                },
+            })}
+            />
 
             <label htmlFor="">Descrição</label>
-            <input type="text"/>
+            <input
+            type="text"
+            {...register('titulo', {
+                required: {
+                  value: true,
+                  message: 'Todos os campos são obrigatórios',
+                },
+            })}
+            />
           </ContentFormNew>
          
 
