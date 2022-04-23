@@ -65,6 +65,7 @@ export default function Admin() {
   const [categorias, setCategorias  ] = useState([]) 
   // Social Media States
   const [socialMedias, setSocialMedias] = useState([ {} ]) 
+  const [socialMediasNew, setSocialMediasNew] = useState([ {} ]) 
 
   // Slider States
   const [sliders    , setSliders    ] = useState([]) 
@@ -95,7 +96,7 @@ export default function Admin() {
     let isCreatedOrUpdated = landingService.create(data)
     console.log(isCreatedOrUpdated)
   }
-
+  // about
   async function handleUpdateOrCreateAbout(rawData){
     let data = {
       horFuncTitulo: rawData.horFuncTitulo,
@@ -124,7 +125,7 @@ export default function Admin() {
     // @ts-ignore
     setState([...state, { }])
   }
-  const handleChangeDependente = ( i, e, state, setState) => {
+  const handleChangeState = ( i, e, state, setState) => {
     const newFormValues = [...state]
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
@@ -319,7 +320,40 @@ export default function Admin() {
               <ActionButton
               type='button'
               className='btn-actions'
-              onClick={() => addFormFields(socialMedias, setSocialMedias)}
+              onClick={() => addFormFields(socialMediasNew, setSocialMediasNew)}
+              >
+              <FiPlus />
+              </ActionButton>
+            </ButtonsHolder>
+          <label htmlFor="">URL</label>
+          <input type="text"/>
+          <hr />
+          </ContentFormNew>
+          ) 
+          )
+        }
+
+
+{
+        socialMediasNew.map(
+          (e, i) => (
+          <ContentFormNew>
+            <label htmlFor="">Icone</label>
+            <ButtonsHolder>
+              <select name="" id="">
+                <option value=""></option>
+              </select>
+              <ActionButton
+              className='btn-actions btn-trash'
+              type='button'
+              onClick={() => removeFormFields(i, socialMediasNew, setSocialMediasNew)}
+              >
+              <FiTrash />
+              </ActionButton>
+              <ActionButton
+              type='button'
+              className='btn-actions'
+              onClick={() => addFormFields(socialMediasNew, setSocialMediasNew)}
                         >
               <FiPlus />
               </ActionButton>
