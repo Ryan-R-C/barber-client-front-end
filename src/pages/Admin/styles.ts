@@ -128,16 +128,24 @@ export const ContentFormNew = styled.div`
     }
   }
 
+
   select {
+    margin-top: 2px;
+    padding: 0 1.5rem;
     height: 48px;
     width: 466px;
-    border-radius: 4px;
-    border: 0;
-    background: #F2F2F2 !important;
-    padding: 0 5px;
-    margin: 10px 0;
-    @media (max-width: 768px) {
-      width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    background: #e7e9ee;
+    border: 1px solid #d7d7d7;
+    border-radius: 0.25rem;
+
+
+    &::placeholder {
+      color: #747474;
+    }
+    & + input {
+      margin-top: 1rem;
     }
   }
 
@@ -172,3 +180,56 @@ export const ModalContainerText = styled.div`
 
   text-align: justify;
   `
+
+export const ButtonsHolder = styled.div`
+  align-items: baseline;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;  
+
+
+  .btn-trash{
+    background-color: #EA1C24;
+    margin-left: 5px;
+    margin-right: 5px;
+  } 
+`
+
+export const ActionButton = styled.button`
+  padding: 0 1.5rem;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: black;
+  border: 0;
+  border-radius: 0.25rem;
+  transition: filter 0.2s ease-in-out;
+  display: block;
+
+  width: 50px;
+  height: 50px;
+  position: relative;
+
+  &:hover {
+    filter: brightness(0.9);
+
+    svg {
+      /* create a animation here */
+    }
+  }
+
+  svg {
+    position:absolute;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    top:0;
+    bottom:0;
+    margin-top:auto;
+    margin-bottom:auto;
+  }
+
+`
