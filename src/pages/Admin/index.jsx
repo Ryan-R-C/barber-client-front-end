@@ -16,35 +16,18 @@ import currencyConfig from '../../utils/currenryConfig';
 import { SubmitButton } from '../../ui/components/SubmitButton';
 import { useForm } from 'react-hook-form';
 import { TextField } from '../../ui/components/TextField';
+import uploadImage from '../../service/imagem/upload';
+import { toast } from 'react-toastify';
+import landingService from '../../service/landing/landing';
 
 export default function Admin() {
-  function handleCheckLogin(){
-    if(!token) window.location.pathname = ''
-  }
-  // loading state loading
-  const [loading, setLoading] = useState(false) 
 
-  const [info, setInfo] = useState([]) 
-  // Landing States 
-  const [landing, setLanding] = useState([]) 
-  // About States 
-  const [horario, setHorario] = useState([]) 
-  const [endereco, setEndereco] = useState([]) 
-  const [sobre, setSobre] = useState([]) 
-  // Categories States
-  const [categorias, setCategorias] = useState([]) 
-  // Social Media States
-  const [socialMedia, setSocialMedia] = useState([]) 
-  // Slider States
-  const [sliders, setSliders] = useState([]) 
-
-  useEffect(
-
-    () => {
-      // handleCheckLogin()
-    }, []
-  )
-
+/*
+=====================================================================================================
+                                        Form Values
+=====================================================================================================
+*/ 
+  
   const {
     register,
     handleSubmit,
@@ -52,12 +35,80 @@ export default function Admin() {
   } = useForm()
 
 
-  async function handleUpdateOrCreateLanding(rawData){
-    let data = {
-      a: rawData.email,
-      b: rawData.password
+  function handleCheckLogin(){
+    if(!token) window.location.pathname = ''
+  }
+  /*
+  =====================================================================================================
+                                            STATES
+  =====================================================================================================
+  */ 
+  // loading state loading
+  const [loading, setLoading] = useState(false) 
+
+  const [info, setInfo] = useState([]) 
+  // Landing States 
+  const [landing   , setLanding     ] = useState([]) 
+
+  const [logo      , setLogo        ] = useState("") 
+  const [backgroundWide        , setBackgroundWide        ] = useState("") 
+  const [backgroundMobile      , setBackgroundMobile      ] = useState("") 
+  const [backgroundPricesMobile, setBackgroundPricesMobile] = useState("") 
+  const [backgroundPricesWide  , setBackgroundPricesWide  ] = useState("") 
+
+  // About States 
+  const [horario   , setHorario     ] = useState([]) 
+  const [endereco  , setEndereco    ] = useState([]) 
+  const [sobre     , setSobre       ] = useState([]) 
+  // Categories States
+  const [categorias, setCategorias  ] = useState([]) 
+  // Social Media States
+  const [socialMedias, setSocialMedias] = useState([]) 
+
+  // Slider States
+  const [sliders    , setSliders    ] = useState([]) 
+  
+
+  async function handleUploadImage(image, setImage){
+    if (image.type.includes('image')) {
+      
+      uploadImage(image, setImage)
+
+    }
+    else {
+      toast.error('Arquivo inválido!')
     }
   }
+  
+
+  async function handleUpdateOrCreateLanding(rawData){
+    let data = {
+      titulo                 : rawData.titulo        , 
+      logo                   : logo                  , 
+      backgroundWide         : backgroundWide        , 
+      backgroundMobile       : backgroundMobile      , 
+      backgroundPricesMobile : backgroundPricesMobile, 
+      backgroundPricesWide   : backgroundPricesWide  , 
+    }
+
+    let isCreatedOrUpdated = landingService.create(data)
+    console.log(isCreatedOrUpdated)
+  }
+    
+
+ 
+  /*
+  =====================================================================================================
+                                          useEffects
+  =====================================================================================================
+  */ 
+  
+    useEffect(
+  
+      () => {
+        // handleCheckLogin()
+      }, []
+    )
   return (
     <>
 
@@ -67,17 +118,8 @@ export default function Admin() {
         onSubmit={handleSubmit(handleUpdateOrCreateLanding)}
         >
           <h3>Landing Page</h3>
-
-          - landing: 
-          Campos:
-          titulo
-          logo - upload de arquivos
-          background wide
-          background mobile
-
-
           <ContentFormNew>
-            <label htmlFor="">Título da Página</label>
+            <label htmlFor="">Geral</label>
             <TextField
               required
               // value={nome}
@@ -96,22 +138,76 @@ export default function Admin() {
           <ContentFormNew>
             <label htmlFor="">Logo</label>
             <input
+              name="courseImage"
+              type="file"
               required
-              // value={nome}
-              type="text"
-              placeholder="Título da Página"
-              errorMessage={errors.titulo}
-              {...register('titulo', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-              })}
+              onChange={(e) => {
+                handleUploadImage(e.target.files[0], setLogo)
+              }}
             />
+            <img className='logo' src={logo} alt="" />
+          </ContentFormNew>
+
+          <ContentFormNew>
+            <label htmlFor="">Background do cabeçalho para dispositívos widescreen</label>
+            <p > (computadores e tvs )</p>
+            <input
+              name="courseImage"
+              type="file"
+              required
+              onChange={(e) => {
+                handleUploadImage(e.target.files[0], setBackgroundWide)
+              }}
+            />
+            <img src={backgroundWide} alt="" />
           </ContentFormNew>
 
 
           <ContentFormNew>
+            <label htmlFor="">Background do cabeçalho para dispositívos mobile</label>
+            <p >( celulares e tablets )</p>
+            <input
+              name="courseImage"
+              type="file"
+              required
+              onChange={(e) => {
+                handleUploadImage(e.target.files[0], setBackgroundMobile)
+              }}
+            />
+            <img src={backgroundMobile} alt="" />
+          </ContentFormNew>
+
+
+          <ContentFormNew>
+            <label htmlFor="">Background dos preços para dispositívos mobile</label>
+            <p >( celulares e tablets )</p>
+            <input
+              name="courseImage"
+              type="file"
+              required
+              onChange={(e) => {
+                handleUploadImage(e.target.files[0], setBackgroundPricesWide)
+              }}
+            />
+            <img src={backgroundPricesWide} alt="" />
+          </ContentFormNew>
+
+          <ContentFormNew>
+            <label htmlFor="">Background dos preços para dispositívos mobile</label>
+            <p >( celulares e tablets )</p>
+            <input
+              name="courseImage"
+              type="file"
+              required
+              onChange={(e) => {
+                handleUploadImage(e.target.files[0], setBackgroundPricesMobile)
+              }}
+            />
+            <img src={backgroundPricesMobile} alt="" />
+          </ContentFormNew>
+
+
+          {/* <ContentFormNew>
             <label htmlFor="">Preço</label>
             <IntlCurrencyInput 
             currency="BRL" 
@@ -133,7 +229,7 @@ export default function Admin() {
               <option value="retirar">Retirar</option>
               <option value="gratis">Grátis</option>
             </select>
-          </ContentFormNew>
+          </ContentFormNew> */}
 
           
           {loading ? (
@@ -151,17 +247,10 @@ export default function Admin() {
           )}
         </ModalContent>
       </>
-      {/* 
-      Tipo presper?
-      */}
+
+    
 
       {/*
-      - landing: 
-        Campos:
-          titulo
-          logo - upload de arquivos
-          background wide
-          background mobile
 
       - medias sociais
         Campos:
