@@ -83,6 +83,23 @@ export const ContentFormNew = styled.div`
   display: flex;
   flex-direction: column;
 
+  img {
+    height: 466px;
+    width:  466px;
+    border-radius: 5px;
+    align-self: center;    
+    margin: 5px 0 20px 0;
+  }
+
+  .logo {
+    height: 266px;
+    width:  266px;
+  }
+
+  p{
+    font-size: 15px;
+  }
+
   input {
     height: 48px;
     width: 466px;
