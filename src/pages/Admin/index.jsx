@@ -64,8 +64,8 @@ export default function Admin() {
   // Categories States
   const [categorias, setCategorias  ] = useState([]) 
   // Social Media States
-  const [socialMedias, setSocialMedias] = useState([ {} ]) 
-  const [socialMediasNew, setSocialMediasNew] = useState([ {} ]) 
+  const [socialMedias   , setSocialMedias   ] = useState([ {} ]) //this are for the already existent ones       
+  const [socialMediasNew, setSocialMediasNew] = useState([ {} ]) // and this are for the new ones!
 
   // Slider States
   const [sliders    , setSliders    ] = useState([]) 
