@@ -82,6 +82,8 @@ export const ModalContent = styled.form`
 export const ContentFormNew = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  // align-items: center;
 
   img {
     height: 466px;
@@ -104,14 +106,25 @@ export const ContentFormNew = styled.div`
     height: 48px;
     width: 466px;
     border-radius: 4px;
-    border: 0;
-    background: #F2F2F2 !important;
+
+    background: #e7e9ee;
+    border: 1px solid #d7d7d7;
+
     padding: 0 5px;
     margin: 10px 0;
     @media (max-width: 768px) {
       width: 100%;
     }
+
+    &::placeholder {
+      color: #747474;
+    }
+    & + input {
+      margin-top: 1rem;
+    }
   }
+
+ 
   
   textarea {
     resize: vertical;
