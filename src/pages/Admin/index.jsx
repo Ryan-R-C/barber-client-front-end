@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Btn, Container, ContentFormNew, ModalContent } from './styles';
+import { ActionButton, Btn, ButtonsHolder, Container, ContentFormNew, ModalContent } from './styles';
 import IportfolioInfo from '../../types/IportfolioInfo'
 import Landing from '../../components/Landing';
 import Menu from '../../components/Menu';
@@ -19,6 +19,7 @@ import { TextField } from '../../ui/components/TextField';
 import uploadImage from '../../service/imagem/upload';
 import { toast } from 'react-toastify';
 import landingService from '../../service/landing/landing';
+import { FiPlus, FiTrash } from 'react-icons/fi';
 
 export default function Admin() {
 
@@ -63,7 +64,7 @@ export default function Admin() {
   // Categories States
   const [categorias, setCategorias  ] = useState([]) 
   // Social Media States
-  const [socialMedias, setSocialMedias] = useState([]) 
+  const [socialMedias, setSocialMedias] = useState([ {} ]) 
 
   // Slider States
   const [sliders    , setSliders    ] = useState([]) 
@@ -96,7 +97,31 @@ export default function Admin() {
   }
     
 
- 
+   /*
+  =====================================================================================================
+                                  Handle Change Screen elements 
+  =====================================================================================================
+  */ 
+   const addFormFields = (state, setState) => {
+    // @ts-ignore
+    setState([...state, { }])
+  }
+  const handleChangeDependente = ( i, e, state, setState) => {
+    const newFormValues = [...state]
+    // @ts-ignore
+    newFormValues[i][e.target.name] = e.target.value
+
+    // console.log(newFormValues)
+    setState(newFormValues)
+  }
+
+  const removeFormFields = (i, state, setState) => {
+    // console.log(dependentes[i])
+    const newFormValues = [...state]
+    newFormValues.splice(i, 1)
+    setState(newFormValues)
+  }
+
   /*
   =====================================================================================================
                                           useEffects
@@ -248,7 +273,61 @@ export default function Admin() {
         </ModalContent>
       </>
 
-    
+      <ModalContent
+      onSubmit={(e) => {
+        e.preventDefault()
+        
+      }}
+      >
+        <h2>
+          Mídias Sociais
+        </h2>
+        {
+        socialMedias.map(
+          (e, i) => (
+          <ContentFormNew>
+            <label htmlFor="">Icone</label>
+            <ButtonsHolder>
+              <select name="" id="">
+                <option value=""></option>
+              </select>
+              <ActionButton
+              className='btn-actions btn-trash'
+              type='button'
+              onClick={() => removeFormFields(i, socialMedias, setSocialMedias)}
+              >
+              <FiTrash />
+              </ActionButton>
+              <ActionButton
+              type='button'
+              className='btn-actions'
+              onClick={() => addFormFields(socialMedias, setSocialMedias)}
+                        >
+              <FiPlus />
+              </ActionButton>
+            </ButtonsHolder>
+          <label htmlFor="">URL</label>
+          <input type="text"/>
+          <hr />
+          </ContentFormNew>
+          ) 
+          )
+        }
+
+        {loading ? (
+            <img
+              width="40px"
+              style={{ margin: "auto" }}
+              height=""
+              src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
+              alt="Loading"
+            />
+          ) : (
+            <SubmitButton
+            title="Enviar"
+            />
+          )}
+      </ModalContent>
 
       {/*
 
