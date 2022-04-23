@@ -64,11 +64,12 @@ export default function Admin() {
   // Categories States
   const [categorias, setCategorias  ] = useState([]) 
   // Social Media States
-  const [socialMedias   , setSocialMedias   ] = useState([ {} ]) //this are for the already existent ones       
+  const [socialMedias   , setSocialMedias   ] = useState([]) //this are for the already existent ones       
   const [socialMediasNew, setSocialMediasNew] = useState([ {} ]) // and this are for the new ones!
 
   // Slider States
-  const [sliders    , setSliders    ] = useState([]) 
+  const [sliders       , setSliders       ] = useState([]) 
+  const [slidersNew    , setSlidersNew    ] = useState([{}]) 
   
 
   async function handleUploadImage(image, setImage){
@@ -334,7 +335,7 @@ export default function Admin() {
         }
 
 
-{
+        {
         socialMediasNew.map(
           (e, i) => (
           <ContentFormNew>
@@ -518,6 +519,98 @@ export default function Admin() {
           )}
       </ModalContent>
 
+      <ModalContent
+      onSubmit={(e) => {
+        e.preventDefault()
+        
+      }}
+      >
+        <h2>
+          Sliders
+        </h2>
+        {
+        sliders.map(
+          (e, i) => (
+          <ContentFormNew>
+            <label htmlFor="">Imagem</label>
+            <ButtonsHolder>
+              <input
+              type="file"
+              name='imagem'
+              onChange={(e) => handleChangeState( i, e, sliders, setSliders)}
+              />
+              <ActionButton
+              className='btn-actions btn-trash'
+              type='button'
+              onClick={() => removeFormFields(i, sliders, setSliders)}
+              >
+              <FiTrash />
+              </ActionButton>
+              <ActionButton
+              type='button'
+              className='btn-actions'
+              onClick={() => addFormFields(slidersNew, setSlidersNew)}
+              >
+              <FiPlus />
+              </ActionButton>
+            </ButtonsHolder>
+          <label htmlFor="">URL</label>
+          <input type="text"/>
+          <hr />
+          </ContentFormNew>
+          ) 
+          )
+        }
+
+
+        {
+        slidersNew.map(
+          (e, i) => (
+          <ContentFormNew>
+            <label htmlFor="">Imagem</label>
+            <ButtonsHolder>
+              <input
+              type="file"
+              name='imagem'
+              onChange={(e) => handleChangeState( i, e, slidersNew, setSlidersNew)}
+              />
+              <ActionButton
+              className='btn-actions btn-trash'
+              type='button'
+              onClick={() => removeFormFields(i, slidersNew, setSlidersNew)}
+              >
+              <FiTrash />
+              </ActionButton>
+              <ActionButton
+              type='button'
+              className='btn-actions'
+              onClick={() => addFormFields(slidersNew, setSlidersNew)}
+                        >
+              <FiPlus />
+              </ActionButton>
+            </ButtonsHolder>
+          <label htmlFor="">URL</label>
+          <input type="text"/>
+          <hr />
+          </ContentFormNew>
+          ) 
+          )
+        }
+
+        {loading ? (
+            <img
+              width="40px"
+              style={{ margin: "auto" }}
+              height=""
+              src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
+              alt="Loading"
+            />
+          ) : (
+            <SubmitButton
+            title="Enviar"
+            />
+          )}
+      </ModalContent>
       {/*
 
       - medias sociais
