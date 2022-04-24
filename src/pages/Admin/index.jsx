@@ -20,6 +20,9 @@ import uploadImage from '../../service/imagem/upload';
 import { toast } from 'react-toastify';
 import landingService from '../../service/landing/landing';
 import { FiPlus, FiTrash } from 'react-icons/fi';
+import sobreService from '../../service/sobre/sobre';
+import sliderService from '../../service/slider/slider';
+import categoriaService from '../../service/categoria/categoria';
 
 export default function Admin() {
 
@@ -70,8 +73,55 @@ export default function Admin() {
   // Slider States
   const [sliders       , setSliders       ] = useState([]) 
   const [slidersNew    , setSlidersNew    ] = useState([{}]) 
+
+
+  /*
+  =====================================================================================================
+                                  View Functions 
+  =====================================================================================================
+  */ 
+
+  async function handleLoadLanding(){
+    let landingData = await landingService.list()
+    setLanding(landingData)
+  }
+
+  async function handleLoadSobre(){
+    let sobreData = await sobreService.list()
+    setSobre(sobreData)
+  }
+
+  async function handleLoadSlider(){
+    let sliderData = await sliderService.list()
+    setSliders(sliderData)
+  }
+
+  async function handleLoadCategorias(){
+    let categoriaData = await categoriaService.list()
+    setCategorias(categoriaData)
+  }
+
+  async function handleLoadAll(){
+    handleLoadLanding()
+    handleLoadSobre()
+    handleLoadSlider()
+    handleLoadCategorias()
+  }
+
+  useEffect(
+    () => {
+      handleLoadAll()
+    }, []
+  )
   
 
+  /*
+  =====================================================================================================
+                                  Create Functions 
+  =====================================================================================================
+  */ 
+  
+  // upload images
   async function handleUploadImage(image, setImage){
     if (image.type.includes('image')) {
       
@@ -108,10 +158,8 @@ export default function Admin() {
       faleConoscoTitulo: rawData.faleConoscoTitulo,
     }
 
-    console.log(data)
-
-    // let isCreatedOrUpdated = landingService.create(data)
-    // console.log(isCreatedOrUpdated)
+    let isCreatedOrUpdated = sobreService.create(data)
+    console.log(isCreatedOrUpdated)
   }
 
 
@@ -537,6 +585,7 @@ export default function Admin() {
               <input
               type="file"
               name='imagem'
+              // TODO handle change no upload porra!
               onChange={(e) => handleChangeState( i, e, sliders, setSliders)}
               />
               <ActionButton
@@ -640,7 +689,6 @@ export default function Admin() {
           Desc
           Preco
           
-      - PrecosBackground
       */}
 
       <Menu
