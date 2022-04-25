@@ -246,3 +246,37 @@ export const ActionButton = styled.button`
   }
 
 `
+
+
+
+export const FlexButtons = styled.div`
+  display: flex;
+  margin: 20px 20px;
+
+
+  button {
+    background: #000;
+    border: 0;
+    width: 120px;
+    height: 48px;
+    border-radius: 5px;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      margin-left: 10px;
+    }
+  }
+`
+
+
+
+export const FlexContainer = styled.div`
+  display: flex;
+  margin: 40px 0;
+  width: 100%;
+  flex-wrap: wrap;
+`
