@@ -69,8 +69,9 @@ export default function Admin() {
   // Landing States 
   const [landing, setLanding] = useState([])
 
-  const [logo, setLogo] = useState("")
-  const [backgroundWide, setBackgroundWide] = useState("")
+  const [titulo            , setTitulo] = useState("")
+  const [logo            , setLogo] = useState("")
+  const [backgroundWide  , setBackgroundWide] = useState("")
   const [backgroundMobile, setBackgroundMobile] = useState("")
   const [backgroundPricesMobile, setBackgroundPricesMobile] = useState("")
   const [backgroundPricesWide, setBackgroundPricesWide] = useState("")
@@ -97,23 +98,40 @@ export default function Admin() {
   */
 
   async function handleLoadLanding() {
-    let landingData = await landingService.list()
-    setLanding(landingData)
+    let allLandingData = await landingService.list()
+    let firstLandingData = allLandingData[0]
+    console.log(firstLandingData || {} )
+    console.log("firstLandingData || {} ")
+    setLanding(firstLandingData || {} )
+
+    setTitulo(firstLandingData?.titulo)
+    setLogo(firstLandingData?.logo)
+    setBackgroundWide(firstLandingData.backgroundWide)
+    setBackgroundMobile(firstLandingData.backgroundMobile)
+    setBackgroundPricesMobile(firstLandingData.backgroundPricesMobile)
+    setBackgroundPricesWide(firstLandingData.backgroundPricesWide)
   }
 
   async function handleLoadSobre() {
     let sobreData = await sobreService.list()
-    setSobre(sobreData)
+    setSobre(sobreData[0] || {} )
+    console.log("sobreData[0] || {} ")
+    console.log(sobreData[0] || {} )
+    
   }
 
   async function handleLoadSlider() {
     let sliderData = await sliderService.list()
-    setSliders(sliderData)
+    setSliders(sliderData   || [] )
+    console.log("sliderData || [] ")
+    console.log(sliderData  || [] )
   }
 
   async function handleLoadCategorias() {
     let categoriaData = await categoriaService.list()
-    setCategorias(categoriaData)
+    setCategorias(categoriaData || [] )
+    console.log("categoriaData  || [] ")
+    console.log(categoriaData   || [] )
   }
 
   async function handleLoadAll() {
@@ -149,18 +167,24 @@ export default function Admin() {
   }
 
   // landing
-  async function handleUpdateOrCreateLanding(rawData) {
+  async function handleUpdateOrCreateLanding() {
+    
     let data = {
-      titulo: rawData.titulo,
+      titulo: titulo,
       logo: logo,
       backgroundWide: backgroundWide,
       backgroundMobile: backgroundMobile,
       backgroundPricesMobile: backgroundPricesMobile,
       backgroundPricesWide: backgroundPricesWide,
     }
+    let isCreatedOrUpdated;
 
-    let isCreatedOrUpdated = landingService.create(data)
+    if (!landing.id) isCreatedOrUpdated = await landingService.create(data)
+    if (landing.id) isCreatedOrUpdated  = await landingService.update(landing.id, data)
+    // let isCreatedOrUpdated = landingService.create(data)
     console.log(isCreatedOrUpdated)
+
+    if(isCreatedOrUpdated) closeModalLanding()
   }
   // about
   async function handleUpdateOrCreateAbout(rawData) {
@@ -343,7 +367,7 @@ export default function Admin() {
             Abrir SliderNew
           </button>
         </FlexButtons>
-        
+
       </FlexContainer>
 
       <Menu
@@ -387,24 +411,22 @@ export default function Admin() {
 
 
         <ModalContent
-          // onSubmit={handleSubmit(handleUpdateOrCreateLanding)}
-          onSubmit={handleSubmit(handleUpdateOrCreateLanding)}
+          onSubmit={e => {
+            e.preventDefault()
+            handleUpdateOrCreateLanding()
+          }
+        }
         >
           <h3>Landing Page</h3>
+
           <ContentFormNew>
             <label htmlFor="">Geral</label>
             <TextField
-              required
               // value={nome}
               type="text"
+              defaultValue={landing?.titulo}
               placeholder="Título da Página"
-              errorMessage={errors.titulo}
-              {...register('titulo', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-              })}
+              onChange={e => setTitulo(e.target.value)}
             />
           </ContentFormNew>
 
@@ -413,7 +435,6 @@ export default function Admin() {
             <input
               name="courseImage"
               type="file"
-              required
               onChange={(e) => {
                 handleUploadImage(e.target.files[0], setLogo)
               }}
@@ -427,7 +448,6 @@ export default function Admin() {
             <input
               name="courseImage"
               type="file"
-              required
               onChange={(e) => {
                 handleUploadImage(e.target.files[0], setBackgroundWide)
               }}
@@ -442,7 +462,6 @@ export default function Admin() {
             <input
               name="courseImage"
               type="file"
-              required
               onChange={(e) => {
                 handleUploadImage(e.target.files[0], setBackgroundMobile)
               }}
@@ -457,7 +476,6 @@ export default function Admin() {
             <input
               name="courseImage"
               type="file"
-              required
               onChange={(e) => {
                 handleUploadImage(e.target.files[0], setBackgroundPricesWide)
               }}
@@ -471,39 +489,12 @@ export default function Admin() {
             <input
               name="courseImage"
               type="file"
-              required
               onChange={(e) => {
                 handleUploadImage(e.target.files[0], setBackgroundPricesMobile)
               }}
             />
             <img src={backgroundPricesMobile} alt="" />
           </ContentFormNew>
-
-
-          {/* <ContentFormNew>
-            <label htmlFor="">Preço</label>
-            <IntlCurrencyInput 
-            currency="BRL" 
-            config={currencyConfig}
-            // onChange={handleChangea} 
-            // value={handleChangePrice}
-            />
-          </ContentFormNew>
-
-          
-          <ContentFormNew>
-            <label htmlFor="">Tipo de frete</label>
-            <select
-              required
-              // onChange={(text) => setFrete(text.target.value)}
-            >
-              <option value="por_categoria">Por Cep</option>
-              <option value="a_combinar">A combinar</option>
-              <option value="retirar">Retirar</option>
-              <option value="gratis">Grátis</option>
-            </select>
-          </ContentFormNew> */}
-
 
           {loading ? (
             <img
