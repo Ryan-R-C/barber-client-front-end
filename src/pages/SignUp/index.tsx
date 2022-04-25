@@ -35,13 +35,13 @@ export default function SignUp() {
     console.log(data)
     console.log(data)
 
-    let singUpDone = await user.cadastro(data.fullName, data.email, data.password, data.role)
+    let singUpDone = await user.cadastro(data.fullName, data.email, data.password, "3")
 
     console.log(singUpDone)
 
     if(!singUpDone) return toast.error("...")
 
-    navigate('/dashboard', { replace: true })
+    navigate('/', { replace: true } )
   }
 
   return (
