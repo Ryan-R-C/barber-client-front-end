@@ -1,12 +1,12 @@
-import { api } from '../api'
+import { api, apiWithoutTenant } from '../api'
 
 import responseHandler from '../../utils/responseHandler'
 import servidorErrorMessage from '../../utils/servidorErrorMessage'
-export default class areas {
+export default class landingService {
   static async create(data) {
     // console.log()
     const response = await api
-      .post('area', {
+      .post('landing', {
         data,
       })
 
@@ -27,7 +27,7 @@ export default class areas {
   //= =========================================================================================================
   static async update(id, data) {
     const response = await api
-      .put(`area/${id}`, {
+      .put(`landing/${id}`, {
         data,
       })
       .catch(() => {
@@ -45,7 +45,7 @@ export default class areas {
   //= =========================================================================================================
   static async delete(id) {
     const response = await api
-      .delete(`area/${id}`)
+      .delete(`landing/${id}`)
       .then((res) => {
         const status = res.status
         const mensagemOk = 'Modulo apagado com sucesso!'
@@ -63,7 +63,7 @@ export default class areas {
 
   //= =========================================================================================================
   static async list() {
-    const response = await api.get('area').catch(() => {
+    const response = await apiWithoutTenant.get('landing').catch(() => {
       servidorErrorMessage()
     })
     console.log("response")
@@ -76,7 +76,7 @@ export default class areas {
 
   static async listWithFilter(filter, value) {
     const response = await api
-      .get(`area?filter%5B${filter}%5D=${value}`)
+      .get(`landing?filter%5B${filter}%5D=${value}`)
       .catch(() => {
         servidorErrorMessage()
       })
@@ -88,7 +88,7 @@ export default class areas {
 
   //= =========================================================================================================
   static async listWithManyFilters(filters) {
-    const response = await api.get(`area?${filters}`).catch(() => {
+    const response = await api.get(`landing?${filters}`).catch(() => {
       servidorErrorMessage()
     })
 
@@ -100,7 +100,7 @@ export default class areas {
   //= =========================================================================================================
   static async find(id) {
     const response = await api
-      .get(`area/${id}`)
+      .get(`landing/${id}`)
 
       .catch(() => {
         servidorErrorMessage()

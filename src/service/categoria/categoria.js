@@ -9,11 +9,8 @@ import {
 
 import responseHandler from '../../utils/responseHandler'
 import servidorErrorMessage from '../../utils/servidorErrorMessage'
-import handleLocalStorageEmailAndPassword from 'utils/handleLocalStorageEmailAndPassword'
-import HandleLocalStorageData from 'utils/handleLocalStorage'
-import axios from 'axios'
 import { toast } from 'react-toastify'
-export default class categorias {
+export default class categoriaService {
   static async create(data) {
     const response = await api
       .post('categoria', {
@@ -71,7 +68,7 @@ export default class categorias {
   //= =========================================================================================================
 
   static async list() {
-    const response = await api.get('categoria').catch(() => {
+    const response = await apiWithoutTenant.get('categoria').catch(() => {
       servidorErrorMessage()
     })
 

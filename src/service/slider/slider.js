@@ -1,8 +1,8 @@
-import { api } from '../api'
+import { api, apiWithoutTenant } from '../api'
 
 import responseHandler from '../../utils/responseHandler'
 import servidorErrorMessage from '../../utils/servidorErrorMessage'
-export default class sliders {
+export default class sliderService {
   static async create(data) {
     // console.log()
     const response = await api
@@ -63,7 +63,7 @@ export default class sliders {
 
   //= =========================================================================================================
   static async list() {
-    const response = await api.get('slider').catch(() => {
+    const response = await apiWithoutTenant.get('slider').catch(() => {
       servidorErrorMessage()
     })
     console.log("response")
