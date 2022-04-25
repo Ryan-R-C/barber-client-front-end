@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { ActionButton, Btn, ButtonsHolder, Container, ContentFormNew, ModalContent } from './styles';
+import { ActionButton, Btn, ButtonsHolder, Container, ContentFormNew, FlexButtons, FlexContainer, ModalContent } from './styles';
 import IportfolioInfo from '../../types/IportfolioInfo'
 import Landing from '../../components/Landing';
 import Menu from '../../components/Menu';
@@ -237,6 +237,7 @@ export default function Admin() {
   =====================================================================================================
   */
 
+  //===============================   open modal functions   =========================================
   function openModalLanding() {
     setIsOpenModalLanding(true)
   }
@@ -259,7 +260,7 @@ export default function Admin() {
     setIsOpenModalSliderNew(true)
   }
 
-
+  //===============================   close modal functions   =========================================
   function closeModalLanding() {
     setIsOpenModalLanding(false)
   }
@@ -285,6 +286,65 @@ export default function Admin() {
   return (
     <>
 
+      <FlexContainer>
+
+        <FlexButtons>
+          <button
+          onClick={openModalLanding}
+          >
+            Abrir Landing
+          </button>
+        </FlexButtons>
+
+        <FlexButtons>
+          <button
+          onClick={openModalAbout}
+          >
+            Abrir About
+          </button>
+        </FlexButtons>
+
+        <FlexButtons>
+          <button
+          onClick={openModalCategories}
+          >
+            Abrir Categories
+          </button>
+        </FlexButtons>
+
+        <FlexButtons>
+          <button
+          onClick={openModalCategoriesNew}
+          >
+            Abrir CategoriesNew
+          </button>
+        </FlexButtons>
+
+        <FlexButtons>
+          <button
+          onClick={openModalSocialMedia}
+          >
+            Abrir SocialMedia
+          </button>
+        </FlexButtons>
+
+        <FlexButtons>
+          <button
+          onClick={openModalSlider}
+          >
+            Abrir Slider
+          </button>
+        </FlexButtons>
+
+        <FlexButtons>
+          <button
+          onClick={openModalSliderNew}
+          >
+            Abrir SliderNew
+          </button>
+        </FlexButtons>
+        
+      </FlexContainer>
 
       <Menu
       />
