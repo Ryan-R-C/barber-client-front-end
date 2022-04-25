@@ -19,10 +19,14 @@ import { TextField } from '../../ui/components/TextField';
 import uploadImage from '../../service/imagem/upload';
 import { toast } from 'react-toastify';
 import landingService from '../../service/landing/landing';
-import { FiPlus, FiTrash } from 'react-icons/fi';
+import { FiPlus, FiTrash, FiX } from 'react-icons/fi';
 import sobreService from '../../service/sobre/sobre';
 import sliderService from '../../service/slider/slider';
 import categoriaService from '../../service/categoria/categoria';
+
+import Modal from 'react-modal'
+
+
 
 export default function Admin() {
 
@@ -47,6 +51,17 @@ export default function Admin() {
                                             STATES
   =====================================================================================================
   */ 
+  //Modals states
+  const [isOpenModalLanding, setIsOpenModalLanding] = useState(false) 
+  const [isOpenModalAbout, setIsOpenModalAbout] = useState(false) 
+  const [isOpenModalCategories, setIsOpenModalCategories] = useState(false) 
+  const [isOpenModalCategoriesNew, setIsOpenModalCategoriesNew] = useState(false) 
+  const [isOpenModalSocialMedia, setIsOpenModalSocialMedia] = useState(false) 
+  const [isOpenModalSlider, setIsOpenModalSlider] = useState(false) 
+  const [isOpenModalSliderNew, setIsOpenModalSliderNew] = useState(false) 
+
+
+
   // loading state loading
   const [loading, setLoading] = useState(false) 
 
@@ -162,6 +177,19 @@ export default function Admin() {
     console.log(isCreatedOrUpdated)
   }
 
+  //slider
+  async function handleUpdateOrCreateSlider(rawData){
+    slidersNew.map(
+      (e) => {
+
+        sliderService.create(e)
+      }
+    )
+
+    // let isCreatedOrUpdated = sobreService.create(data)
+    // console.log(isCreatedOrUpdated)
+  }
+
 
     
 
@@ -202,10 +230,76 @@ export default function Admin() {
         // handleCheckLogin()
       }, []
     )
+
+  /*
+  =====================================================================================================
+                                  Modal Functions 
+  =====================================================================================================
+  */ 
+
+  function openModalLanding(){
+    setIsOpenModalLanding(true)
+  }
+  function openModalAbout(){
+    setIsOpenModalAbout(true)
+  }
+  function openModalCategories(){
+    setIsOpenModalCategories(true)
+  }
+  function openModalCategoriesNew(){
+    setIsOpenModalCategoriesNew(true)
+  }
+  function openModalSocialMedia(){
+    setIsOpenModalSocialMedia(true)
+  }
+  function openModalSlider(){
+    setIsOpenModalSlider(true)
+  }
+  function openModalSliderNew(){
+    setIsOpenModalSliderNew(true)
+  }
+
+
+  function closeModalLanding(){
+    setIsOpenModalLanding(false)
+  }
+  function closeModalAbout(){
+    setIsOpenModalAbout(false)
+  }
+  function closeModalCategories(){
+    setIsOpenModalCategories(false)
+  }
+  function closeModalCategoriesNew(){
+    setIsOpenModalCategoriesNew(false)
+  }
+  function closeModalSocialMedia(){
+    setIsOpenModalSocialMedia(false)
+  }
+  function closeModalSlider(){
+    setIsOpenModalSlider(false)
+  }
+  function closeModalSliderNew(){
+    setIsOpenModalSliderNew(false)
+  }
+
   return (
     <>
 
-      <>
+      <Modal
+      isOpen={isOpenModalLanding}
+      onRequestClose={closeModalLanding}
+      overlayClassName='react-modal-overlay'
+      className='react-modal-content'
+    >
+      <button
+        className='react-modal-close'
+        type='button'
+        onClick={closeModalLanding}
+      >
+        <FiX />
+      </button>
+
+
       <ModalContent
         // onSubmit={handleSubmit(handleUpdateOrCreateLanding)}
         onSubmit={handleSubmit(handleUpdateOrCreateLanding)}
@@ -339,234 +433,263 @@ export default function Admin() {
             />
           )}
         </ModalContent>
-      </>
+      </Modal>
 
+      <Modal
+      isOpen={isOpenModalSocialMedia}
+      onRequestClose={closeModalSocialMedia}
+      overlayClassName='react-modal-overlay'
+      className='react-modal-content'
+    >
+      <button
+        className='react-modal-close'
+        type='button'
+        onClick={closeModalSocialMedia}
+      >
+        <FiX />
+      </button>
+      
       <ModalContent
       onSubmit={(e) => {
         e.preventDefault()
         
       }}
       >
-        <h2>
-          Mídias Sociais
-        </h2>
-        {
-        socialMedias.map(
-          (e, i) => (
-          <ContentFormNew>
-            <label htmlFor="">Icone</label>
-            <ButtonsHolder>
-              <select name="" id="">
-                <option value=""></option>
-              </select>
-              <ActionButton
-              className='btn-actions btn-trash'
-              type='button'
-              onClick={() => removeFormFields(i, socialMedias, setSocialMedias)}
-              >
-              <FiTrash />
-              </ActionButton>
-              <ActionButton
-              type='button'
-              className='btn-actions'
-              onClick={() => addFormFields(socialMediasNew, setSocialMediasNew)}
-              >
-              <FiPlus />
-              </ActionButton>
-            </ButtonsHolder>
-          <label htmlFor="">URL</label>
-          <input type="text"/>
-          <hr />
-          </ContentFormNew>
-          ) 
-          )
-        }
+          <h2>
+            Mídias Sociais
+          </h2>
+          {
+          socialMedias.map(
+            (e, i) => (
+            <ContentFormNew>
+              <label htmlFor="">Icone</label>
+              <ButtonsHolder>
+                <select name="" id="">
+                  <option value=""></option>
+                </select>
+                <ActionButton
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeFormFields(i, socialMedias, setSocialMedias)}
+                >
+                <FiTrash />
+                </ActionButton>
+                <ActionButton
+                type='button'
+                className='btn-actions'
+                onClick={() => addFormFields(socialMediasNew, setSocialMediasNew)}
+                >
+                <FiPlus />
+                </ActionButton>
+              </ButtonsHolder>
+            <label htmlFor="">URL</label>
+            <input type="text"/>
+            <hr />
+            </ContentFormNew>
+            )
+            )
+          }
+          {
+          socialMediasNew.map(
+            (e, i) => (
+            <ContentFormNew>
+              <label htmlFor="">Icone</label>
+              <ButtonsHolder>
+                <select name="" id="">
+                  <option value=""></option>
+                </select>
+                <ActionButton
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeFormFields(i, socialMediasNew, setSocialMediasNew)}
+                >
+                <FiTrash />
+                </ActionButton>
+                <ActionButton
+                type='button'
+                className='btn-actions'
+                onClick={() => addFormFields(socialMediasNew, setSocialMediasNew)}
+                          >
+                <FiPlus />
+                </ActionButton>
+              </ButtonsHolder>
+            <label htmlFor="">URL</label>
+            <input type="text"/>
+            <hr />
+            </ContentFormNew>
+            )
+            )
+          }
+          {loading ? (
+              <img
+                width="40px"
+                style={{ margin: "auto" }}
+                height=""
+                src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
+                alt="Loading"
+              />
+            ) : (
+              <SubmitButton
+              title="Enviar"
+              />
+            )}
+                </ModalContent>
+        </Modal>
 
-
-        {
-        socialMediasNew.map(
-          (e, i) => (
-          <ContentFormNew>
-            <label htmlFor="">Icone</label>
-            <ButtonsHolder>
-              <select name="" id="">
-                <option value=""></option>
-              </select>
-              <ActionButton
-              className='btn-actions btn-trash'
-              type='button'
-              onClick={() => removeFormFields(i, socialMediasNew, setSocialMediasNew)}
-              >
-              <FiTrash />
-              </ActionButton>
-              <ActionButton
-              type='button'
-              className='btn-actions'
-              onClick={() => addFormFields(socialMediasNew, setSocialMediasNew)}
-                        >
-              <FiPlus />
-              </ActionButton>
-            </ButtonsHolder>
-          <label htmlFor="">URL</label>
-          <input type="text"/>
-          <hr />
-          </ContentFormNew>
-          ) 
-          )
-        }
-
-        {loading ? (
-            <img
-              width="40px"
-              style={{ margin: "auto" }}
-              height=""
-              src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
-              alt="Loading"
-            />
-          ) : (
-            <SubmitButton
-            title="Enviar"
-            />
-          )}
-      </ModalContent>
-
-      <ModalContent
-      onSubmit={handleSubmit(handleUpdateOrCreateAbout)}
+      <Modal
+      isOpen={isOpenModalAbout}
+      onRequestClose={closeModalAbout}
+      overlayClassName='react-modal-overlay'
+      className='react-modal-content'
+    >
+      <button
+        className='react-modal-close'
+        type='button'
+        onClick={closeModalAbout}
       >
-        <h2>
-          Sobre
-        </h2>
-
-        <h3>
-          Horário de Funcionamento
-        </h3>
+        <FiX />
+      </button>
+        <ModalContent
+        onSubmit={handleSubmit(handleUpdateOrCreateAbout)}
+        >
+          <h2>
+            Sobre
+          </h2>
+          <h3>
+            Horário de Funcionamento
+          </h3>
         
-          <ContentFormNew>
-            <label htmlFor="">Título</label>
-            <input
-            type="text"
-            {...register('horFuncTitulo', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-            })}
-            />
-
-            <label htmlFor="">Descrição</label>
-            <input
-            type="text"
-            {...register('horFuncDesc', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-            })}
-            />
-          </ContentFormNew>
-
-
+            <ContentFormNew>
+              <label htmlFor="">Título</label>
+              <input
+              type="text"
+              {...register('horFuncTitulo', {
+                  required: {
+                    value: true,
+                    message: 'Todos os campos são obrigatórios',
+                  },
+              })}
+              />
+              <label htmlFor="">Descrição</label>
+              <input
+              type="text"
+              {...register('horFuncDesc', {
+                  required: {
+                    value: true,
+                    message: 'Todos os campos são obrigatórios',
+                  },
+              })}
+              />
+            </ContentFormNew>
         
-        <h3>
-          Endereço
-        </h3>
+          <h3>
+            Endereço
+          </h3>
         
-          <ContentFormNew>
-            <label htmlFor="">Título</label>
-            <input
-            type="text"
-            {...register('enderecoTitulo', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-            })}
-            />
-
-            <label htmlFor="">Descrição</label>
-            <input
-            type="text"
-            {...register('enderecoDesc', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-            })}
-            />
-          </ContentFormNew>
-
-        <h3>
-          Fale Conosco
-        </h3>
+            <ContentFormNew>
+              <label htmlFor="">Título</label>
+              <input
+              type="text"
+              {...register('enderecoTitulo', {
+                  required: {
+                    value: true,
+                    message: 'Todos os campos são obrigatórios',
+                  },
+              })}
+              />
+              <label htmlFor="">Descrição</label>
+              <input
+              type="text"
+              {...register('enderecoDesc', {
+                  required: {
+                    value: true,
+                    message: 'Todos os campos são obrigatórios',
+                  },
+              })}
+              />
+            </ContentFormNew>
+          <h3>
+            Fale Conosco
+          </h3>
         
-          <ContentFormNew>
-            <label htmlFor="">Título</label>
-            <input
-            type="text"
-            {...register('faleConoscoTitulo', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-            })}
-            />
-
-            <label htmlFor="">Descrição</label>
-            <input
-            type="text"
-            {...register('faleConoscoDesc', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-            })}
-            />
-          </ContentFormNew>
-
-        <h3>
-          Sobre
-        </h3>
+            <ContentFormNew>
+              <label htmlFor="">Título</label>
+              <input
+              type="text"
+              {...register('faleConoscoTitulo', {
+                  required: {
+                    value: true,
+                    message: 'Todos os campos são obrigatórios',
+                  },
+              })}
+              />
+              <label htmlFor="">Descrição</label>
+              <input
+              type="text"
+              {...register('faleConoscoDesc', {
+                  required: {
+                    value: true,
+                    message: 'Todos os campos são obrigatórios',
+                  },
+              })}
+              />
+            </ContentFormNew>
+          <h3>
+            Sobre
+          </h3>
         
-          <ContentFormNew>
-            <label htmlFor="">Título</label>
-            <input
-            type="text"
-            {...register('titulo', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-            })}
-            />
+            <ContentFormNew>
+              <label htmlFor="">Título</label>
+              <input
+              type="text"
+              {...register('titulo', {
+                  required: {
+                    value: true,
+                    message: 'Todos os campos são obrigatórios',
+                  },
+              })}
+              />
+              <label htmlFor="">Descrição</label>
+              <input
+              type="text"
+              {...register('titulo', {
+                  required: {
+                    value: true,
+                    message: 'Todos os campos são obrigatórios',
+                  },
+              })}
+              />
+            </ContentFormNew>
+        
+          {loading ? (
+              <img
+                width="40px"
+                style={{ margin: "auto" }}
+                height=""
+                src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
+                alt="Loading"
+              />
+            ) : (
+              <SubmitButton
+              title="Enviar"
+              />
+            )}
+        </ModalContent>
+      </Modal>
 
-            <label htmlFor="">Descrição</label>
-            <input
-            type="text"
-            {...register('titulo', {
-                required: {
-                  value: true,
-                  message: 'Todos os campos são obrigatórios',
-                },
-            })}
-            />
-          </ContentFormNew>
-         
-
-        {loading ? (
-            <img
-              width="40px"
-              style={{ margin: "auto" }}
-              height=""
-              src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
-              alt="Loading"
-            />
-          ) : (
-            <SubmitButton
-            title="Enviar"
-            />
-          )}
-      </ModalContent>
-
+      <Modal
+      isOpen={isOpenModalSlider}
+      onRequestClose={closeModalSlider}
+      overlayClassName='react-modal-overlay'
+      className='react-modal-content'
+    >
+      <button
+        className='react-modal-close'
+        type='button'
+        onClick={closeModalSlider}
+      >
+        <FiX />
+      </button>
       <ModalContent
       onSubmit={(e) => {
         e.preventDefault()
@@ -611,55 +734,55 @@ export default function Admin() {
           )
         }
 
-
-        {
-        slidersNew.map(
-          (e, i) => (
-          <ContentFormNew>
-            <label htmlFor="">Imagem</label>
-            <ButtonsHolder>
-              <input
-              type="file"
-              name='imagem'
-              onChange={(e) => handleChangeState( i, e, slidersNew, setSlidersNew)}
+          {
+          slidersNew.map(
+            (e, i) => (
+            <ContentFormNew>
+              <label htmlFor="">Imagem</label>
+              <ButtonsHolder>
+                <input
+                type="file"
+                name='imagem'
+                onChange={(e) => handleChangeState( i, e, slidersNew, setSlidersNew)}
+                />
+                <ActionButton
+                className='btn-actions btn-trash'
+                type='button'
+                onClick={() => removeFormFields(i, slidersNew, setSlidersNew)}
+                >
+                <FiTrash />
+                </ActionButton>
+                <ActionButton
+                type='button'
+                className='btn-actions'
+                onClick={() => addFormFields(slidersNew, setSlidersNew)}
+                          >
+                <FiPlus />
+                </ActionButton>
+              </ButtonsHolder>
+            <label htmlFor="">URL</label>
+            <input type="text"/>
+            <hr />
+            </ContentFormNew>
+            )
+            )
+          }
+  
+          {loading ? (
+              <img
+                width="40px"
+                style={{ margin: "auto" }}
+                height=""
+                src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
+                alt="Loading"
               />
-              <ActionButton
-              className='btn-actions btn-trash'
-              type='button'
-              onClick={() => removeFormFields(i, slidersNew, setSlidersNew)}
-              >
-              <FiTrash />
-              </ActionButton>
-              <ActionButton
-              type='button'
-              className='btn-actions'
-              onClick={() => addFormFields(slidersNew, setSlidersNew)}
-                        >
-              <FiPlus />
-              </ActionButton>
-            </ButtonsHolder>
-          <label htmlFor="">URL</label>
-          <input type="text"/>
-          <hr />
-          </ContentFormNew>
-          ) 
-          )
-        }
-
-        {loading ? (
-            <img
-              width="40px"
-              style={{ margin: "auto" }}
-              height=""
-              src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
-              alt="Loading"
-            />
-          ) : (
-            <SubmitButton
-            title="Enviar"
-            />
-          )}
-      </ModalContent>
+            ) : (
+              <SubmitButton
+              title="Enviar"
+              />
+            )}
+        </ModalContent>
+        </Modal>
       {/*
 
       - medias sociais
