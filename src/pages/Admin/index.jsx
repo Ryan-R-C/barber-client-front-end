@@ -351,6 +351,8 @@ export default function Admin() {
     setIsOpenModalSliderNew(false)
   }
 
+  console.log(sliders)
+
   return (
     <>
 
@@ -444,9 +446,11 @@ export default function Admin() {
       sobreTitulo={sobre.sobreTitulo}
       sobreDesc={sobre.sobreDesc}
       />
+
       <Prices
       />
       <Carrousel
+      sliders={sliders}
       />
 
 
@@ -898,9 +902,11 @@ export default function Admin() {
                   <label htmlFor=""> Texto alternativo para deficientes visuais</label>
                   <input
                   type="text"
+                  defaultValue={e.texto}
                   name="texto"
-                  onChange={(e) => handleChangeStateSlide(i, e, slidersNew, setSlidersNew)}
+                  onChange={(e) => handleChangeState(i, e, slidersNew, setSlidersNew)}
                   />
+                  <img src={e.imagem} alt="" />
                   <hr />
                 </ContentFormNew>
               )
@@ -930,7 +936,7 @@ export default function Admin() {
                   <input
                   type="text"
                   name="texto"
-                  onChange={(e) => handleChangeStateSlide(i, e, slidersNew, setSlidersNew)}
+                  onChange={(e) => handleChangeState(i, e, slidersNew, setSlidersNew)}
                   />
                   <hr />
                 </ContentFormNew>
