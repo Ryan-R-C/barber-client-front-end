@@ -427,6 +427,8 @@ export default function Admin() {
       faleConoscoDesc={sobre.enderecoDesc}
       horFuncDesc={sobre.enderecoDesc}
       horFuncTitulo={sobre.enderecoDesc}
+      sobreTitulo={sobre.sobreTitulo}
+      sobreDesc={sobre.sobreDesc}
       />
       <Prices
       />
