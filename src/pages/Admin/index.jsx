@@ -938,6 +938,8 @@ export default function Admin() {
                   name="texto"
                   onChange={(e) => handleChangeState(i, e, slidersNew, setSlidersNew)}
                   />
+                  <img src={e.imagem} alt="" />
+
                   <hr />
                 </ContentFormNew>
               )
