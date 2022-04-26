@@ -25,6 +25,7 @@ import sliderService from '../../service/slider/slider';
 import categoriaService from '../../service/categoria/categoria';
 
 import Modal from 'react-modal'
+import { isReturnStatement } from 'typescript';
 
 
 
@@ -82,6 +83,7 @@ export default function Admin() {
   const [sobre, setSobre] = useState([])
   // Categories States
   const [categorias, setCategorias] = useState([])
+  const [categoriasNew, setCategoriasNew] = useState([])
   // Social Media States
   const [socialMedias, setSocialMedias] = useState([]) //this are for the already existent ones       
   const [socialMediasNew, setSocialMediasNew] = useState([{}]) // and this are for the new ones!
@@ -195,6 +197,8 @@ export default function Admin() {
       horFuncDesc: rawData.horFuncDesc,
       enderecoDesc: rawData.enderecoDesc,
       faleConoscoTitulo: rawData.faleConoscoTitulo,
+      sobreTitulo: rawData.sobreTitulo,
+      sobreDesc: rawData.sobreDesc,
     }
 
     let isCreatedOrUpdated = sobreService.create(data)
@@ -205,8 +209,34 @@ export default function Admin() {
   async function handleUpdateOrCreateSlider(rawData) {
     slidersNew.map(
       (e) => {
-
         sliderService.create(e)
+      }
+    )
+
+    sliders.map(
+      (e) => {
+        if(!e.id) return;
+        sliderService.update(e.id, e)
+      }
+    )
+
+    // let isCreatedOrUpdated = sobreService.create(data)
+    // console.log(isCreatedOrUpdated)
+  }
+
+
+   //slider
+   async function handleUpdateOrCreateCategories(rawData) {
+    slidersNew.map(
+      (e) => {
+        sliderService.create(e)
+      }
+    )
+
+    sliders.map(
+      (e) => {
+        if(!e.id) return;
+        sliderService.update(e.id, e)
       }
     )
 
@@ -332,10 +362,11 @@ export default function Admin() {
           <button
           onClick={openModalCategories}
           >
-            Abrir Categories
+            Abrir Categorias
           </button>
         </FlexButtons>
 
+        {/*
         <FlexButtons>
           <button
           onClick={openModalCategoriesNew}
@@ -343,6 +374,7 @@ export default function Admin() {
             Abrir CategoriesNew
           </button>
         </FlexButtons>
+        */}
 
         <FlexButtons>
           <button
@@ -360,6 +392,7 @@ export default function Admin() {
           </button>
         </FlexButtons>
 
+        {/*
         <FlexButtons>
           <button
           onClick={openModalSliderNew}
@@ -367,14 +400,33 @@ export default function Admin() {
             Abrir SliderNew
           </button>
         </FlexButtons>
+        */}
 
       </FlexContainer>
 
+
+
+{/* 
+=====================================================================================================
+                                  Page Components 
+=====================================================================================================
+*/}
       <Menu
       />
       <Landing
+      titulo={titulo}
+      backgroundWide={backgroundWide}
+      backgroundMobile={backgroundMobile}
       />
+
+
       <About
+      enderecoDesc={sobre.enderecoDesc}
+      enderecoTitulo={sobre.enderecoDesc}
+      faleConoscoTitulo={sobre.enderecoDesc}
+      faleConoscoDesc={sobre.enderecoDesc}
+      horFuncDesc={sobre.enderecoDesc}
+      horFuncTitulo={sobre.enderecoDesc}
       />
       <Prices
       />
@@ -648,6 +700,7 @@ export default function Admin() {
             <label htmlFor="">Título</label>
             <input
               type="text"
+              defaultValue={sobre.horFuncTitulo}
               {...register('horFuncTitulo', {
                 required: {
                   value: true,
@@ -658,6 +711,7 @@ export default function Admin() {
             <label htmlFor="">Descrição</label>
             <input
               type="text"
+              defaultValue={sobre.horFuncDesc}
               {...register('horFuncDesc', {
                 required: {
                   value: true,
@@ -675,6 +729,7 @@ export default function Admin() {
             <label htmlFor="">Título</label>
             <input
               type="text"
+              defaultValue={sobre.enderecoTitulo}
               {...register('enderecoTitulo', {
                 required: {
                   value: true,
@@ -685,6 +740,7 @@ export default function Admin() {
             <label htmlFor="">Descrição</label>
             <input
               type="text"
+              defaultValue={sobre.enderecoDesc}
               {...register('enderecoDesc', {
                 required: {
                   value: true,
@@ -701,6 +757,7 @@ export default function Admin() {
             <label htmlFor="">Título</label>
             <input
               type="text"
+              defaultValue={sobre.faleConoscoTitulo}
               {...register('faleConoscoTitulo', {
                 required: {
                   value: true,
@@ -727,7 +784,8 @@ export default function Admin() {
             <label htmlFor="">Título</label>
             <input
               type="text"
-              {...register('titulo', {
+              defaultValue={sobre.sobreTitulo}
+              {...register('sobreTitulo', {
                 required: {
                   value: true,
                   message: 'Todos os campos são obrigatórios',
@@ -737,7 +795,8 @@ export default function Admin() {
             <label htmlFor="">Descrição</label>
             <input
               type="text"
-              {...register('titulo', {
+              defaultValue={sobre.sobreDesc}
+              {...register('sobreDesc', {
                 required: {
                   value: true,
                   message: 'Todos os campos são obrigatórios',
@@ -838,6 +897,116 @@ export default function Admin() {
                       className='btn-actions btn-trash'
                       type='button'
                       onClick={() => removeFormFields(i, slidersNew, setSlidersNew)}
+                    >
+                      <FiTrash />
+                    </ActionButton>
+                    <ActionButton
+                      type='button'
+                      className='btn-actions'
+                      onClick={() => addFormFields(slidersNew, setSlidersNew)}
+                    >
+                      <FiPlus />
+                    </ActionButton>
+                  </ButtonsHolder>
+                  <label htmlFor="">URL</label>
+                  <input type="text" />
+                  <hr />
+                </ContentFormNew>
+              )
+            )
+          }
+
+          {loading ? (
+            <img
+              width="40px"
+              style={{ margin: "auto" }}
+              height=""
+              src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
+              alt="Loading"
+            />
+          ) : (
+            <SubmitButton
+              title="Enviar"
+            />
+          )}
+        </ModalContent>
+      </Modal>
+{/* 
+====================================    Categorias    ==============================================
+*/}
+
+      <Modal
+        isOpen={isOpenModalCategories}
+        onRequestClose={closeModalCategories}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalCategories}
+        >
+          <FiX />
+        </button>
+        <ModalContent
+          onSubmit={(e) => {
+            e.preventDefault()
+
+          }}
+        >
+          <h2>
+            Sliders
+          </h2>
+          {
+            sliders.map(
+              (e, i) => (
+                <ContentFormNew>
+                  <label htmlFor="">Imagem</label>
+                  <ButtonsHolder>
+                    <input
+                      type="file"
+                      name='imagem'
+                      // TODO handle change no upload porra!
+                      onChange={(e) => handleChangeState(i, e, categorias, setCategorias)}
+                    />
+                    <ActionButton
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, categorias, setCategorias)}
+                    >
+                      <FiTrash />
+                    </ActionButton>
+                    <ActionButton
+                      type='button'
+                      className='btn-actions'
+                      onClick={() => addFormFields(categoriasNew, setCategoriasNew)}
+                    >
+                      <FiPlus />
+                    </ActionButton>
+                  </ButtonsHolder>
+                  <label htmlFor="">URL</label>
+                  <input type="text" />
+                  <hr />
+                </ContentFormNew>
+              )
+            )
+          }
+
+          {
+            slidersNew.map(
+              (e, i) => (
+                <ContentFormNew>
+                  <label htmlFor="">Imagem</label>
+                  <ButtonsHolder>
+                    <input
+                      type="file"
+                      name='imagem'
+                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
+                    />
+                    <ActionButton
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, categoriasNew, setCategoriasNew)}
                     >
                       <FiTrash />
                     </ActionButton>
