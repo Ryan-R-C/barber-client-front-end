@@ -159,9 +159,7 @@ export default function Admin() {
   // upload images
   async function handleUploadImage(image, setImage) {
     if (image.type.includes('image')) {
-
-      uploadImage(image, setImage)
-
+      return uploadImage(image, setImage)
     }
     else {
       toast.error('Arquivo inválido!')
@@ -206,7 +204,7 @@ export default function Admin() {
   }
 
   //slider
-  async function handleUpdateOrCreateSlider(rawData) {
+  async function handleUpdateOrCreateSlider() {
     slidersNew.map(
       (e) => {
         sliderService.create(e)
@@ -257,6 +255,10 @@ export default function Admin() {
     setState([...state, {}])
   }
   const handleChangeState = (i, e, state, setState) => {
+
+    console.log("e.target.value")
+    console.log(e.target.value)
+
     const newFormValues = [...state]
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
@@ -269,6 +271,18 @@ export default function Admin() {
     // console.log(dependentes[i])
     const newFormValues = [...state]
     newFormValues.splice(i, 1)
+    setState(newFormValues)
+  }
+
+
+  const handleChangeStateSlide = async (i, e, state, setState) => {
+    let image = await handleUploadImage(e.target.files[0])
+
+    const newFormValues = [...state]
+    // @ts-ignore
+    newFormValues[i][e.target.name] = image
+
+    // console.log(newFormValues)
     setState(newFormValues)
   }
 
@@ -843,6 +857,7 @@ export default function Admin() {
         <ModalContent
           onSubmit={(e) => {
             e.preventDefault()
+            handleUpdateOrCreateSlider()
 
           }}
         >
@@ -859,7 +874,9 @@ export default function Admin() {
                       type="file"
                       name='imagem'
                       // TODO handle change no upload porra!
-                      onChange={(e) => handleChangeState(i, e, sliders, setSliders)}
+                      onChange={
+                        (e) => handleChangeStateSlide(i, e, sliders, setSliders)
+                    }
                     />
                     <ActionButton
                       className='btn-actions btn-trash'
@@ -868,6 +885,7 @@ export default function Admin() {
                     >
                       <FiTrash />
                     </ActionButton>
+                    {/*
                     <ActionButton
                       type='button'
                       className='btn-actions'
@@ -875,9 +893,14 @@ export default function Admin() {
                     >
                       <FiPlus />
                     </ActionButton>
+                    */}
                   </ButtonsHolder>
-                  <label htmlFor="">URL</label>
-                  <input type="text" />
+                  <label htmlFor=""> Texto alternativo para deficientes visuais</label>
+                  <input
+                  type="text"
+                  name="texto"
+                  onChange={(e) => handleChangeStateSlide(i, e, slidersNew, setSlidersNew)}
+                  />
                   <hr />
                 </ContentFormNew>
               )
@@ -893,7 +916,7 @@ export default function Admin() {
                     <input
                       type="file"
                       name='imagem'
-                      onChange={(e) => handleChangeState(i, e, slidersNew, setSlidersNew)}
+                      onChange={(e) => handleChangeStateSlide(i, e, slidersNew, setSlidersNew)}
                     />
                     <ActionButton
                       className='btn-actions btn-trash'
@@ -902,21 +925,25 @@ export default function Admin() {
                     >
                       <FiTrash />
                     </ActionButton>
-                    <ActionButton
-                      type='button'
-                      className='btn-actions'
-                      onClick={() => addFormFields(slidersNew, setSlidersNew)}
-                    >
-                      <FiPlus />
-                    </ActionButton>
                   </ButtonsHolder>
-                  <label htmlFor="">URL</label>
-                  <input type="text" />
+                  <label htmlFor=""> Texto alternativo para deficientes visuais </label>
+                  <input
+                  type="text"
+                  name="texto"
+                  onChange={(e) => handleChangeStateSlide(i, e, slidersNew, setSlidersNew)}
+                  />
                   <hr />
                 </ContentFormNew>
               )
             )
           }
+          <ActionButton
+            type='button'
+            className='btn-actions'
+            onClick={() => addFormFields(slidersNew, setSlidersNew)}
+          >
+            <FiPlus />
+        </ActionButton>
 
           {loading ? (
             <img
@@ -937,6 +964,12 @@ export default function Admin() {
 ====================================    Categorias    ==============================================
 */}
 
+
+{/* 
+
+TO DO: NEW FUNCTIONS!!!
+
+*/}
       <Modal
         isOpen={isOpenModalCategories}
         onRequestClose={closeModalCategories}
