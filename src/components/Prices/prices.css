@@ -3,15 +3,16 @@
     display: flex;
     flex-wrap: wrap;    
     /* background-image: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("https://i.ibb.co/3TnxbXS/Whats-App-Image-2021-10-14-at-13-49-28-20.jpg"); */
-    background-attachment: fixed;
-    -o-background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size:cover;
-    background-size: cover;
+    background-attachment: fixed !important;
+    -o-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -webkit-background-size:cover !important;
+    background-size: cover !important;
     height: 100%;
 }
 
 .prices__container{
+    width: 100%;
     padding: 1.7rem 1rem;
     display: flex;
     flex-wrap: wrap;
