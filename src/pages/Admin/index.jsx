@@ -230,17 +230,18 @@ export default function Admin() {
 
 
    //slider
-   async function handleUpdateOrCreateCategories(rawData) {
+   async function handleCreateCategories() {
     let data = {
       titulo: categoriaTitulo
     }
     
-    let newCategory = categoriaService.create(data)
+    let newCategory = await categoriaService.create(data)
 
     categoriasNew.map(
-      (e) => {
+      async (e) => {
         e.categoriaId = newCategory.id
-        let newCategorieItem = categoriaItemService.create(e)
+        console.log(e)
+        let newCategorieItem = await categoriaItemService.create(e)
         console.log(newCategorieItem)
       }
     )
@@ -378,8 +379,6 @@ export default function Admin() {
   function closeModalSliderNew() {
     setIsOpenModalSliderNew(false)
   }
-
-  console.log(sliders)
 
   return (
     <>
@@ -1103,7 +1102,7 @@ export default function Admin() {
         <ModalContent
           onSubmit={(e) => {
             e.preventDefault()
-            handleUpdateOrCreateCategories()
+            handleCreateCategories()
 
           }}
         >
@@ -1142,7 +1141,7 @@ export default function Admin() {
                     <ActionButton
                       type='button'
                       className='btn-actions'
-                      onClick={() => addFormFields(slidersNew, setSlidersNew)}
+                      onClick={() => addFormFields(categoriasNew, setCategoriasNew)}
                     >
                       <FiPlus />
                     </ActionButton>
@@ -1153,7 +1152,17 @@ export default function Admin() {
                     <label htmlFor=""> Descrição</label>
                     <input
                       type="text"
-                      name='dec'
+                      name='desc'
+                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
+                    />
+                  </ContentFormNew>
+
+
+                  <ContentFormNew>
+                    <label htmlFor=""> Preço</label>
+                    <input
+                      type="text"
+                      name='preco'
                       onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
                     />
                   </ContentFormNew>
