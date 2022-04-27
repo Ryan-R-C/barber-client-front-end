@@ -90,6 +90,7 @@ export const ContentFormNew = styled.div`
     width:  466px;
     border-radius: 5px;
     align-self: center;    
+    object-fit:contain;
     margin: 5px 0 20px 0;
   }
 
@@ -255,6 +256,7 @@ export const FlexButtons = styled.div`
 
 
   button {
+    cursor: pointer;
     background: #000;
     border: 0;
     width: 120px;
