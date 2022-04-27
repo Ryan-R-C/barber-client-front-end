@@ -19,13 +19,14 @@ import { TextField } from '../../ui/components/TextField';
 import uploadImage from '../../service/imagem/upload';
 import { toast } from 'react-toastify';
 import landingService from '../../service/landing/landing';
-import { FiPlus, FiTrash, FiX } from 'react-icons/fi';
+import { FiEdit, FiPlus, FiTrash, FiX } from 'react-icons/fi';
 import sobreService from '../../service/sobre/sobre';
 import sliderService from '../../service/slider/slider';
 import categoriaService from '../../service/categoria/categoria';
 
 import Modal from 'react-modal'
 import { isReturnStatement } from 'typescript';
+import categoriaItemService from '../../service/categoriaItem/categoriaItem';
 
 
 
@@ -55,13 +56,13 @@ export default function Admin() {
   //Modals states
   const [isOpenModalLanding, setIsOpenModalLanding] = useState(false)
   const [isOpenModalAbout, setIsOpenModalAbout] = useState(false)
-  const [isOpenModalCategories, setIsOpenModalCategories] = useState(false)
-  const [isOpenModalCategoriesNew, setIsOpenModalCategoriesNew] = useState(false)
   const [isOpenModalSocialMedia, setIsOpenModalSocialMedia] = useState(false)
   const [isOpenModalSlider, setIsOpenModalSlider] = useState(false)
   const [isOpenModalSliderNew, setIsOpenModalSliderNew] = useState(false)
-
-
+  
+  const [isOpenModalCategories, setIsOpenModalCategories] = useState(false)
+  const [isOpenModalCategoriesNew, setIsOpenModalCategoriesNew] = useState(false)
+  const [isOpenModalCategoriesChange, setIsOpenModalCategoriesChange] = useState(false)
 
   // loading state loading
   const [loading, setLoading] = useState(false)
@@ -83,7 +84,12 @@ export default function Admin() {
   const [sobre, setSobre] = useState([])
   // Categories States
   const [categorias, setCategorias] = useState([])
+  const [categoriaSeleted, setCategoriaSeleted] = useState({})
+  const [categoriaTitulo, setCategoriaTitulo] = useState("")
+
   const [categoriasNew, setCategoriasNew] = useState([])
+
+
   // Social Media States
   const [socialMedias, setSocialMedias] = useState([]) //this are for the already existent ones       
   const [socialMediasNew, setSocialMediasNew] = useState([{}]) // and this are for the new ones!
@@ -225,18 +231,20 @@ export default function Admin() {
 
    //slider
    async function handleUpdateOrCreateCategories(rawData) {
-    slidersNew.map(
+    let data = {
+      titulo: categoriaTitulo
+    }
+    
+    let newCategory = categoriaService.create(data)
+
+    categoriasNew.map(
       (e) => {
-        sliderService.create(e)
+        e.categoriaId = newCategory.id
+        let newCategorieItem = categoriaItemService.create(e)
+        console.log(newCategorieItem)
       }
     )
 
-    sliders.map(
-      (e) => {
-        if(!e.id) return;
-        sliderService.update(e.id, e)
-      }
-    )
 
     // let isCreatedOrUpdated = sobreService.create(data)
     // console.log(isCreatedOrUpdated)
@@ -254,6 +262,7 @@ export default function Admin() {
     // @ts-ignore
     setState([...state, {}])
   }
+
   const handleChangeState = (i, e, state, setState) => {
 
     console.log("e.target.value")
@@ -285,6 +294,13 @@ export default function Admin() {
     // console.log(newFormValues)
     setState(newFormValues)
   }
+
+  // const addCategoriesSubValues = (state, setState, i) => {
+  //   // @ts-ignore
+  //   // pega o index, adiciona mais um objeto ao index
+  //   state[i].categorias
+  //   setState([...state, {}])
+  // }
 
   /*
   =====================================================================================================
@@ -318,6 +334,12 @@ export default function Admin() {
   function openModalCategoriesNew() {
     setIsOpenModalCategoriesNew(true)
   }
+
+  function openModalCategoriesChange() {
+    setIsOpenModalCategoriesChange(true)
+  }
+
+
   function openModalSocialMedia() {
     setIsOpenModalSocialMedia(true)
   }
@@ -341,6 +363,12 @@ export default function Admin() {
   function closeModalCategoriesNew() {
     setIsOpenModalCategoriesNew(false)
   }
+
+
+  function closeModalCategoriesChange() {
+    setIsOpenModalCategoriesChange(false)
+  }
+
   function closeModalSocialMedia() {
     setIsOpenModalSocialMedia(false)
   }
@@ -972,12 +1000,6 @@ export default function Admin() {
 ====================================    Categorias    ==============================================
 */}
 
-
-{/* 
-
-TO DO: NEW FUNCTIONS!!!
-
-*/}
       <Modal
         isOpen={isOpenModalCategories}
         onRequestClose={closeModalCategories}
@@ -998,20 +1020,19 @@ TO DO: NEW FUNCTIONS!!!
           }}
         >
           <h2>
-            Sliders
+            Categorias
           </h2>
           {
-            sliders.map(
+            categorias.map(
               (e, i) => (
                 <ContentFormNew>
                   <label htmlFor="">Imagem</label>
                   <ButtonsHolder>
-                    <input
-                      type="file"
-                      name='imagem'
-                      // TODO handle change no upload porra!
-                      onChange={(e) => handleChangeState(i, e, categorias, setCategorias)}
-                    />
+                    <p>
+                      {
+                        e.titulo
+                      }
+                    </p>
                     <ActionButton
                       className='btn-actions btn-trash'
                       type='button'
@@ -1022,52 +1043,30 @@ TO DO: NEW FUNCTIONS!!!
                     <ActionButton
                       type='button'
                       className='btn-actions'
-                      onClick={() => addFormFields(categoriasNew, setCategoriasNew)}
+                      // onClick={() => addFormFields(categoriasNew, setCategoriasNew)}
+                      onClick={() => {
+                        openModalCategoriesChange()
+                      }
+                      }
                     >
-                      <FiPlus />
+                      <FiEdit />
                     </ActionButton>
                   </ButtonsHolder>
-                  <label htmlFor="">URL</label>
-                  <input type="text" />
                   <hr />
                 </ContentFormNew>
               )
             )
           }
 
-          {
-            slidersNew.map(
-              (e, i) => (
-                <ContentFormNew>
-                  <label htmlFor="">Imagem</label>
-                  <ButtonsHolder>
-                    <input
-                      type="file"
-                      name='imagem'
-                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
-                    />
-                    <ActionButton
-                      className='btn-actions btn-trash'
-                      type='button'
-                      onClick={() => removeFormFields(i, categoriasNew, setCategoriasNew)}
-                    >
-                      <FiTrash />
-                    </ActionButton>
-                    <ActionButton
-                      type='button'
-                      className='btn-actions'
-                      onClick={() => addFormFields(slidersNew, setSlidersNew)}
-                    >
-                      <FiPlus />
-                    </ActionButton>
-                  </ButtonsHolder>
-                  <label htmlFor="">URL</label>
-                  <input type="text" />
-                  <hr />
-                </ContentFormNew>
-              )
-            )
-          }
+
+
+          <ActionButton
+            type='button'
+            className='btn-actions'
+            onClick={() => openModalCategoriesNew()}
+          >
+            <FiPlus />
+        </ActionButton>
 
           {loading ? (
             <img
@@ -1084,7 +1083,123 @@ TO DO: NEW FUNCTIONS!!!
           )}
         </ModalContent>
       </Modal>
+
+      {/* ====================================  Create  Categorias   */}
+
+
+      <Modal
+        isOpen={isOpenModalCategoriesNew}
+        onRequestClose={closeModalCategoriesNew}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalCategoriesNew}
+        >
+          <FiX />
+        </button>
+        <ModalContent
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleUpdateOrCreateCategories()
+
+          }}
+        >
+          <h2>
+            Categorias
+          </h2>
+          <ContentFormNew>
+            <label htmlFor=""> Titulo</label>
+            <input
+            type="text"
+            onChange={e => setCategoriaTitulo(e.target.value)}
+             />
+          </ContentFormNew>
+          {
+            categoriasNew.map(
+              (e, i) => (
+                <ContentFormNew>
+                <label htmlFor=""> Titulo</label>
+                  <ButtonsHolder>
+                    <input
+                      type="text"
+                      name='titulo'
+                      // TODO handle change no upload  porra!
+                      onChange={
+                        (e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)
+                    }
+                    />
+                    <ActionButton
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, categoriasNew, setCategoriasNew)}
+                    >
+                      <FiTrash />
+                    </ActionButton>
+                    
+                    <ActionButton
+                      type='button'
+                      className='btn-actions'
+                      onClick={() => addFormFields(slidersNew, setSlidersNew)}
+                    >
+                      <FiPlus />
+                    </ActionButton>
+                   
+                  </ButtonsHolder>
+
+                  <ContentFormNew>
+                    <label htmlFor=""> Descrição</label>
+                    <input
+                      type="text"
+                      name='dec'
+                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
+                    />
+                  </ContentFormNew>
+
+                  <hr />
+                </ContentFormNew>
+              )
+            )
+          }
+
+
+          <ActionButton
+            type='button'
+            className='btn-actions'
+            onClick={() => addFormFields(categoriasNew, setCategoriasNew)}
+          >
+            <FiPlus />
+          </ActionButton>
+
+          {loading ? (
+            <img
+              width="40px"
+              style={{ margin: "auto" }}
+              height=""
+              src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
+              alt="Loading"
+            />
+          ) : (
+            <SubmitButton
+              title="Enviar"
+            />
+          )}
+        </ModalContent>
+      </Modal>
+
+
+
+
+      {/* ====================================  Update  Categorias   */}
     </>
   );
 }
 
+
+/*
+Modal, dentro dele as existentes
+  abrir modal para novo
+  e abrir modal para alteração
+*/
