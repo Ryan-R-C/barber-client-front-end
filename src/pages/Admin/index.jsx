@@ -84,7 +84,10 @@ export default function Admin() {
   const [sobre, setSobre] = useState([])
   // Categories States
   const [categorias, setCategorias] = useState([])
+
   const [categoriaSeleted, setCategoriaSeleted] = useState({})
+  const [categoriaItemSeleted, setCategoriaItemSeleted] = useState([])
+
   const [categoriaTitulo, setCategoriaTitulo] = useState("")
 
   const [categoriasNew, setCategoriasNew] = useState([])
@@ -236,6 +239,31 @@ export default function Admin() {
     }
     
     let newCategory = await categoriaService.create(data)
+
+    categoriasNew.map(
+      async (e) => {
+        e.categoriaId = newCategory.id
+        console.log(e)
+        let newCategorieItem = await categoriaItemService.create(e)
+        console.log(newCategorieItem)
+      }
+    )
+
+
+    // let isCreatedOrUpdated = sobreService.create(data)
+    // console.log(isCreatedOrUpdated)
+  }
+
+
+  async function handleUpdateCategories() {
+    let data = {
+      titulo: categoriaTitulo
+    }
+    
+    let newCategory = await categoriaService.create(data)
+
+
+
 
     categoriasNew.map(
       async (e) => {
@@ -1044,6 +1072,9 @@ export default function Admin() {
                       className='btn-actions'
                       // onClick={() => addFormFields(categoriasNew, setCategoriasNew)}
                       onClick={() => {
+                        setCategoriaSeleted(e)
+                        setCategoriaItemSeleted(e.categoriaItem)
+                        setCategoriaTitulo(e.titulo)
                         openModalCategoriesChange()
                       }
                       }
@@ -1201,7 +1232,180 @@ export default function Admin() {
 
 
 
-      {/* ====================================  Update  Categorias   */}
+  {/* ====================================  Update  Categorias   */}
+      <Modal
+        isOpen={isOpenModalCategoriesChange}
+        onRequestClose={closeModalCategoriesChange}
+        overlayClassName='react-modal-overlay'
+        className='react-modal-content'
+      >
+        <button
+          className='react-modal-close'
+          type='button'
+          onClick={closeModalCategoriesChange}
+        >
+          <FiX />
+        </button>
+        <ModalContent
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleUpdateCategories()
+
+          }}
+        >
+          <h2>
+            Categorias
+          </h2>
+          <ContentFormNew>
+            <label htmlFor=""> Titulo</label>
+            <input
+            type="text"
+            value={categoriaTitulo}
+            onChange={e => setCategoriaTitulo(e.target.value)}
+             />
+          </ContentFormNew>
+
+          {
+            categoriaItemSeleted.map(
+              (e, i) => (
+                <ContentFormNew>
+                <label htmlFor=""> Titulo</label>
+                  <ButtonsHolder>
+                    <input
+                      type="text"
+                      name='titulo'
+                      defaultValue={e.titulo}
+                      onChange={
+                        (e) => handleChangeState(i, e, categoriaItemSeleted, setCategoriaItemSeleted)
+                    }
+                    />
+                    <ActionButton
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, categoriaItemSeleted, setCategoriaItemSeleted)}
+                    >
+                      <FiTrash />
+                    </ActionButton>
+                    
+                    <ActionButton
+                      type='button'
+                      className='btn-actions'
+                      onClick={() => addFormFields(categoriaItemSeleted, setCategoriaItemSeleted)}
+                    >
+                      <FiPlus />
+                    </ActionButton>
+                   
+                  </ButtonsHolder>
+
+                  <ContentFormNew>
+                    <label htmlFor=""> Descrição</label>
+                    <input
+                      type="text"
+                      name='desc'
+                      defaultValue={e.desc}
+                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
+                    />
+                  </ContentFormNew>
+
+
+                  <ContentFormNew>
+                    <label htmlFor=""> Preço</label>
+                    <input
+                      defaultValue={e.preco}
+                      type="text"
+                      name='preco'
+                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
+                    />
+                  </ContentFormNew>
+
+                  <hr />
+                </ContentFormNew>
+              )
+            )
+          }
+          
+
+          {
+            categoriasNew.map(
+              (e, i) => (
+                <ContentFormNew>
+                <label htmlFor=""> Titulo</label>
+                  <ButtonsHolder>
+                    <input
+                      type="text"
+                      name='titulo'
+                      // TODO handle change no upload  porra!
+                      onChange={
+                        (e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)
+                    }
+                    />
+                    <ActionButton
+                      className='btn-actions btn-trash'
+                      type='button'
+                      onClick={() => removeFormFields(i, categoriasNew, setCategoriasNew)}
+                    >
+                      <FiTrash />
+                    </ActionButton>
+                    
+                    <ActionButton
+                      type='button'
+                      className='btn-actions'
+                      onClick={() => addFormFields(categoriasNew, setCategoriasNew)}
+                    >
+                      <FiPlus />
+                    </ActionButton>
+                   
+                  </ButtonsHolder>
+
+                  <ContentFormNew>
+                    <label htmlFor=""> Descrição</label>
+                    <input
+                      type="text"
+                      name='desc'
+                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
+                    />
+                  </ContentFormNew>
+
+
+                  <ContentFormNew>
+                    <label htmlFor=""> Preço</label>
+                    <input
+                      type="text"
+                      name='preco'
+                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
+                    />
+                  </ContentFormNew>
+
+                  <hr />
+                </ContentFormNew>
+              )
+            )
+          }
+
+
+          <ActionButton
+            type='button'
+            className='btn-actions'
+            onClick={() => addFormFields(categoriasNew, setCategoriasNew)}
+          >
+            <FiPlus />
+          </ActionButton>
+
+          {loading ? (
+            <img
+              width="40px"
+              style={{ margin: "auto" }}
+              height=""
+              src={"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
+              alt="Loading"
+            />
+          ) : (
+            <SubmitButton
+              title="Enviar"
+            />
+          )}
+        </ModalContent>
+      </Modal>  
     </>
   );
 }
