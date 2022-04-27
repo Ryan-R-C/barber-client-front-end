@@ -19,7 +19,7 @@
     #nav-bar{
         align-items: initial;
         display: flex;
-        position: fixed;
+        position: sticky;
         flex-direction: column;
         padding-bottom: 1.5rem;
         padding-top: 1.5rem;
