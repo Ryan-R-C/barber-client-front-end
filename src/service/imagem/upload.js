@@ -54,7 +54,7 @@ export default async function uploadImage(newImage, setImage) {
 
     console.log(pathToImage)
 
-    setImage(pathToImage)
+    if(setImage) setImage(pathToImage)
 
     return pathToImage
 }

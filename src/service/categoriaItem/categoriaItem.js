@@ -3,13 +3,10 @@ import {api, apiWithoutTenant, apiWithoutTenantAndWithToken, apiWithTenantAndWit
 
 import responseHandler from '../../utils/responseHandler'
 import servidorErrorMessage from '../../utils/servidorErrorMessage'
-import handleLocalStorageEmailAndPassword from 'utils/handleLocalStorageEmailAndPassword'
-import HandleLocalStorageData from 'utils/handleLocalStorage'
-import axios from 'axios'
-import { toast } from 'react-toastify'
 
 
-export default class categoriaItem{
+
+export default class categoriaItemService{
   static async create(data){
     let response = await api.post(`categoriaItem`, {
       data

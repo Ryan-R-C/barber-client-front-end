@@ -10,7 +10,6 @@ export default class sliderService {
         data,
       })
 
-      console.log(response)
 
       .catch(() => {
         servidorErrorMessage()
@@ -48,7 +47,7 @@ export default class sliderService {
       .delete(`slider/${id}`)
       .then((res) => {
         const status = res.status
-        const mensagemOk = 'Modulo apagado com sucesso!'
+        const mensagemOk = 'Slider apagado com sucesso!'
         const mensagemNaoOK = 'Algo deu errado :('
 
         responseHandler(status, mensagemOk, mensagemNaoOK)
@@ -66,8 +65,6 @@ export default class sliderService {
     const response = await apiWithoutTenant.get('slider').catch(() => {
       servidorErrorMessage()
     })
-    console.log("response")
-    console.log(response)
 
     const responseData = response.data.rows
 

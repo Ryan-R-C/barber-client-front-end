@@ -66,9 +66,7 @@ export default class sobreService {
     const response = await apiWithoutTenant.get('sobre').catch(() => {
       servidorErrorMessage()
     })
-    console.log("response")
-    console.log(response)
-
+    
     const responseData = response.data.rows
 
     return responseData

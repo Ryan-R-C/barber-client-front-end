@@ -33,7 +33,7 @@ export default class landingService {
       .catch(() => {
         servidorErrorMessage()
       })
-    const mensagemOk = 'Configurações da página alterado com sucesso!'
+    const mensagemOk = 'Configurações da página alteradas com sucesso!'
     const mensagemNaoOK = 'Revise seus dados :('
     responseHandler(response.status, mensagemOk, mensagemNaoOK)
 
@@ -66,8 +66,6 @@ export default class landingService {
     const response = await apiWithoutTenant.get('landing').catch(() => {
       servidorErrorMessage()
     })
-    console.log("response")
-    console.log(response)
 
     const responseData = response.data.rows
 
