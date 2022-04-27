@@ -260,17 +260,23 @@ export default function Admin() {
       titulo: categoriaTitulo
     }
     
-    let newCategory = await categoriaService.create(data)
+    let updatedCategory = await categoriaService.update(categoriaSeleted.id, data)
 
 
-
+    categoriaItemSeleted.map(
+      async (e) => {
+        console.log(e)
+        let newCategorieItem;
+        if(e.id) newCategorieItem = await categoriaItemService.update(e.id, e)
+      }
+  
+    )
 
     categoriasNew.map(
       async (e) => {
-        e.categoriaId = newCategory.id
+        e.categoriaId = categoriaSeleted.id
         console.log(e)
         let newCategorieItem = await categoriaItemService.create(e)
-        console.log(newCategorieItem)
       }
     )
 
