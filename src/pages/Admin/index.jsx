@@ -509,6 +509,9 @@ export default function Admin() {
       />
 
       <Prices
+      backgroundPricesMobile={backgroundPricesMobile}
+      backgroundPricesWide={backgroundPricesWide}
+      categories={categorias}
       />
       <Carrousel
       sliders={sliders}
