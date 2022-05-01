@@ -5,9 +5,13 @@ import './header-content.css'
 import { useEffect, useState } from 'react';
 
 function Landing  ( {
+    logo,
     titulo,
     backgroundWide,
     backgroundMobile,
+    facebookLink,
+    instagramLink,
+    whatsappLink,
   } ){
   const mediaMatch = window.matchMedia('(min-width: 768px)');
   const [matches, setMatches] = useState(mediaMatch.matches);
@@ -49,7 +53,7 @@ function Landing  ( {
         id="header-page"
         >
             <div className="header-page__holder header-page__holder-logo">
-                <img src="https://i.ibb.co/Q9rw5gm/logo-preta.png" alt="" className="header-page__logo" />
+                <img src={logo} alt="" className="header-page__logo" />
                 <nav className="header-page__nav">
                     <ul className="header-page__unored-list">
                         {
@@ -73,15 +77,15 @@ function Landing  ( {
             </div>
             <div className="header-page__holder">
                 <nav className="header-page__nav">
-                  <a href="https://api.whatsapp.com/send?phone=+5515997702196" className="btn">Agendar</a>
+                  <a href={whatsappLink} className="btn">Agendar</a>
                 </nav>
                 <nav className="header-page__nav">
                     <ul className="header-page__unored-list social-media">
                         <li className="header-page__list-element">
-                          <a href="https://www.facebook.com/Barbearia-do-Parra-108829248169948/ "  target="_blank" className="header-page__anchor">Facebook</a>
+                          <a href={facebookLink}  target="_blank" className="header-page__anchor">Facebook</a>
                         </li>
                         <li className="header-page__list-element">
-                          <a href="https://www.instagram.com/barbeariadoparraa/" target="_blank" className="header-page__anchor">Instagram</a>
+                          <a href={instagramLink} target="_blank" className="header-page__anchor">Instagram</a>
                         </li>
                     </ul>
                 </nav>
