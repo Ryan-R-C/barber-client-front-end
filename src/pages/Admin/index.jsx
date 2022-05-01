@@ -27,11 +27,13 @@ import categoriaService from '../../service/categoria/categoria';
 import Modal from 'react-modal'
 import { isReturnStatement } from 'typescript';
 import categoriaItemService from '../../service/categoriaItem/categoriaItem';
+import socialMediaService from '../../service/socialMedia/socialMedia';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 
 
 export default function Admin() {
-
   /*
   =====================================================================================================
                                           Form Values
@@ -59,7 +61,7 @@ export default function Admin() {
   const [isOpenModalSocialMedia, setIsOpenModalSocialMedia] = useState(false)
   const [isOpenModalSlider, setIsOpenModalSlider] = useState(false)
   const [isOpenModalSliderNew, setIsOpenModalSliderNew] = useState(false)
-  
+
   const [isOpenModalCategories, setIsOpenModalCategories] = useState(false)
   const [isOpenModalCategoriesNew, setIsOpenModalCategoriesNew] = useState(false)
   const [isOpenModalCategoriesChange, setIsOpenModalCategoriesChange] = useState(false)
@@ -71,9 +73,10 @@ export default function Admin() {
   // Landing States 
   const [landing, setLanding] = useState([])
 
-  const [titulo            , setTitulo] = useState("")
-  const [logo            , setLogo] = useState("")
-  const [backgroundWide  , setBackgroundWide] = useState("")
+  const [titulo, setTitulo] = useState("")
+  const [logo, setLogo] = useState("")
+  const [logoBranca, setLogoBranca] = useState("")
+  const [backgroundWide, setBackgroundWide] = useState("")
   const [backgroundMobile, setBackgroundMobile] = useState("")
   const [backgroundPricesMobile, setBackgroundPricesMobile] = useState("")
   const [backgroundPricesWide, setBackgroundPricesWide] = useState("")
@@ -95,7 +98,9 @@ export default function Admin() {
 
   // Social Media States
   const [socialMedias, setSocialMedias] = useState([]) //this are for the already existent ones       
-  const [socialMediasNew, setSocialMediasNew] = useState([{}]) // and this are for the new ones!
+  const [facebook, setFacebook  ] = useState("") // and this are for the new ones!
+  const [instagram, setInstagram] = useState("") // and this are for the new ones!
+  const [whatsapp, setWhatsapp  ] = useState("") // and this are for the new ones!
 
   // Slider States
   const [sliders, setSliders] = useState([])
@@ -111,12 +116,12 @@ export default function Admin() {
   async function handleLoadLanding() {
     let allLandingData = await landingService.list()
     let firstLandingData = allLandingData[0]
-    console.log(firstLandingData || {} )
-    console.log("firstLandingData || {} ")
-    setLanding(firstLandingData || {} )
+
+    setLanding(firstLandingData || {})
 
     setTitulo(firstLandingData?.titulo)
     setLogo(firstLandingData?.logo)
+    setLogoBranca(firstLandingData?.logoBranca)
     setBackgroundWide(firstLandingData.backgroundWide)
     setBackgroundMobile(firstLandingData.backgroundMobile)
     setBackgroundPricesMobile(firstLandingData.backgroundPricesMobile)
@@ -125,24 +130,28 @@ export default function Admin() {
 
   async function handleLoadSobre() {
     let sobreData = await sobreService.list()
-    setSobre(sobreData[0] || {} )
-    console.log("sobreData[0] || {} ")
-    console.log(sobreData[0] || {} )
-    
+    console.log(sobreData[0])
+    setSobre(sobreData[0])
   }
 
   async function handleLoadSlider() {
     let sliderData = await sliderService.list()
-    setSliders(sliderData   || [] )
-    console.log("sliderData || [] ")
-    console.log(sliderData  || [] )
+    setSliders(sliderData || [])
   }
 
   async function handleLoadCategorias() {
     let categoriaData = await categoriaService.list()
-    setCategorias(categoriaData || [] )
-    console.log("categoriaData  || [] ")
-    console.log(categoriaData   || [] )
+    setCategorias(categoriaData || [])
+  }
+
+  async function handleLoadSocialMedias() {
+    let SocialMediaData = await socialMediaService.list()
+    console.log("mnvkfjnvbfndvgjnsdjvnsdjvnsdjknv sdjknnj")
+    let socialMedia = SocialMediaData[0];
+    setSocialMedias(socialMedia)
+    setFacebook(socialMedia?.facebook)
+    setInstagram(socialMedia?.instagram)
+    setWhatsapp(socialMedia?.whatsapp)
   }
 
   async function handleLoadAll() {
@@ -150,6 +159,7 @@ export default function Admin() {
     handleLoadSobre()
     handleLoadSlider()
     handleLoadCategorias()
+    handleLoadSocialMedias()
   }
 
   useEffect(
@@ -177,10 +187,11 @@ export default function Admin() {
 
   // landing
   async function handleUpdateOrCreateLanding() {
-    
+
     let data = {
       titulo: titulo,
       logo: logo,
+      logoBranca: logoBranca,
       backgroundWide: backgroundWide,
       backgroundMobile: backgroundMobile,
       backgroundPricesMobile: backgroundPricesMobile,
@@ -189,11 +200,10 @@ export default function Admin() {
     let isCreatedOrUpdated;
 
     if (!landing.id) isCreatedOrUpdated = await landingService.create(data)
-    if (landing.id) isCreatedOrUpdated  = await landingService.update(landing.id, data)
-    // let isCreatedOrUpdated = landingService.create(data)
-    console.log(isCreatedOrUpdated)
+    if (landing.id) isCreatedOrUpdated = await landingService.update(landing.id, data)
 
-    if(isCreatedOrUpdated) closeModalLanding()
+    if (isCreatedOrUpdated) closeModalLanding()
+    handleLoadLanding()
   }
   // about
   async function handleUpdateOrCreateAbout(rawData) {
@@ -207,9 +217,12 @@ export default function Admin() {
       sobreTitulo: rawData.sobreTitulo,
       sobreDesc: rawData.sobreDesc,
     }
+    let isCreatedOrUpdated;
+    if(!sobre.id) isCreatedOrUpdated = await sobreService.create(data)
+    if(sobre.id) isCreatedOrUpdated =  await sobreService.update(sobre.id, data)
 
-    let isCreatedOrUpdated = sobreService.create(data)
-    console.log(isCreatedOrUpdated)
+    handleLoadSobre()
+    if (isCreatedOrUpdated) closeModalAbout()
   }
 
   //slider
@@ -222,22 +235,42 @@ export default function Admin() {
 
     sliders.map(
       (e) => {
-        if(!e.id) return;
+        if (!e.id) return;
         sliderService.update(e.id, e)
       }
     )
 
-    // let isCreatedOrUpdated = sobreService.create(data)
-    // console.log(isCreatedOrUpdated)
+    closeModalSlider()
+    closeModalSliderNew()
   }
 
+  //socialMedia
+  async function handleCreateOrUpdateSocialMedia() {
+    console.log("entrei entrei")
 
-   //slider
-   async function handleCreateCategories() {
+
+    let data = {
+      facebook:  facebook,
+      instagram: instagram,
+      whatsapp:  whatsapp,
+    }
+
+    console.log(data)
+    console.log("socialMedias.id")
+    console.log(socialMedias.id)
+    let createdSocialMedia;
+    if(!socialMedias.id) createdSocialMedia = await socialMediaService.create(data)
+    if(socialMedias.id) createdSocialMedia = await socialMediaService.update(socialMedias.id, data)
+    
+    // closeModalSocialMedia()
+  }
+
+  //categories
+  async function handleCreateCategories() {
     let data = {
       titulo: categoriaTitulo
     }
-    
+
     let newCategory = await categoriaService.create(data)
 
     categoriasNew.map(
@@ -249,9 +282,8 @@ export default function Admin() {
       }
     )
 
-
-    // let isCreatedOrUpdated = sobreService.create(data)
-    // console.log(isCreatedOrUpdated)
+    if (newCategory) closeModalCategoriesNew()
+    handleLoadCategorias()
   }
 
 
@@ -259,7 +291,7 @@ export default function Admin() {
     let data = {
       titulo: categoriaTitulo
     }
-    
+
     let updatedCategory = await categoriaService.update(categoriaSeleted.id, data)
 
 
@@ -267,9 +299,9 @@ export default function Admin() {
       async (e) => {
         console.log(e)
         let newCategorieItem;
-        if(e.id) newCategorieItem = await categoriaItemService.update(e.id, e)
+        if (e.id) newCategorieItem = await categoriaItemService.update(e.id, e)
       }
-  
+
     )
 
     categoriasNew.map(
@@ -280,15 +312,15 @@ export default function Admin() {
       }
     )
 
+    if (updatedCategory) closeModalCategoriesChange()
 
-    // let isCreatedOrUpdated = sobreService.create(data)
-    // console.log(isCreatedOrUpdated)
+    handleLoadCategorias()
   }
 
 
 
 
-  /*
+/*
  =====================================================================================================
                                  Handle Change Screen elements 
  =====================================================================================================
@@ -326,16 +358,9 @@ export default function Admin() {
     // @ts-ignore
     newFormValues[i][e.target.name] = image
 
-    // console.log(newFormValues)
     setState(newFormValues)
   }
 
-  // const addCategoriesSubValues = (state, setState, i) => {
-  //   // @ts-ignore
-  //   // pega o index, adiciona mais um objeto ao index
-  //   state[i].categorias
-  //   setState([...state, {}])
-  // }
 
   /*
   =====================================================================================================
@@ -414,6 +439,7 @@ export default function Admin() {
     setIsOpenModalSliderNew(false)
   }
 
+
   return (
     <>
 
@@ -421,7 +447,7 @@ export default function Admin() {
 
         <FlexButtons>
           <button
-          onClick={openModalLanding}
+            onClick={openModalLanding}
           >
             Abrir Landing
           </button>
@@ -429,7 +455,7 @@ export default function Admin() {
 
         <FlexButtons>
           <button
-          onClick={openModalAbout}
+            onClick={openModalAbout}
           >
             Abrir About
           </button>
@@ -437,7 +463,7 @@ export default function Admin() {
 
         <FlexButtons>
           <button
-          onClick={openModalCategories}
+            onClick={openModalCategories}
           >
             Abrir Categorias
           </button>
@@ -455,7 +481,7 @@ export default function Admin() {
 
         <FlexButtons>
           <button
-          onClick={openModalSocialMedia}
+            onClick={openModalSocialMedia}
           >
             Abrir SocialMedia
           </button>
@@ -463,7 +489,7 @@ export default function Admin() {
 
         <FlexButtons>
           <button
-          onClick={openModalSlider}
+            onClick={openModalSlider}
           >
             Abrir Slider
           </button>
@@ -483,51 +509,61 @@ export default function Admin() {
 
 
 
-{/* 
+      {/* 
 =====================================================================================================
                                   Page Components 
 =====================================================================================================
 */}
+
       <Menu
+      logoBranca={logoBranca}
+      facebookLink={facebook}
+      instagramLink={instagram}
+      whatsappLink={whatsapp}
       />
       <Landing
-      titulo={titulo}
-      backgroundWide={backgroundWide}
-      backgroundMobile={backgroundMobile}
+        titulo={titulo}
+        logo={logo}
+        logoBranca={logoBranca}
+        backgroundWide={backgroundWide}
+        backgroundMobile={backgroundMobile}
+        facebookLink={facebook}
+        instagramLink={instagram}
+        whatsappLink={whatsapp}
       />
 
 
       <About
-      enderecoDesc={sobre.enderecoDesc}
-      enderecoTitulo={sobre.enderecoDesc}
-      faleConoscoTitulo={sobre.enderecoDesc}
-      faleConoscoDesc={sobre.enderecoDesc}
-      horFuncDesc={sobre.enderecoDesc}
-      horFuncTitulo={sobre.enderecoDesc}
-      sobreTitulo={sobre.sobreTitulo}
-      sobreDesc={sobre.sobreDesc}
+        enderecoDesc={sobre.enderecoDesc}
+        enderecoTitulo={sobre.enderecoDesc}
+        faleConoscoTitulo={sobre.enderecoDesc}
+        faleConoscoDesc={sobre.enderecoDesc}
+        horFuncDesc={sobre.enderecoDesc}
+        horFuncTitulo={sobre.enderecoDesc}
+        sobreTitulo={sobre.sobreTitulo}
+        sobreDesc={sobre.sobreDesc}
       />
 
       <Prices
-      backgroundPricesMobile={backgroundPricesMobile}
-      backgroundPricesWide={backgroundPricesWide}
-      categories={categorias}
+        backgroundPricesMobile={backgroundPricesMobile}
+        backgroundPricesWide={backgroundPricesWide}
+        categories={categorias}
       />
       <Carrousel
-      sliders={sliders}
+        sliders={sliders}
       />
 
 
 
 
 
-{/* 
+      {/* 
 =====================================================================================================
                                   Modals Components 
 =====================================================================================================
 */}
 
-{/* 
+      {/* 
 =======================================   LANDING   =================================================
 */}
 
@@ -551,7 +587,7 @@ export default function Admin() {
             e.preventDefault()
             handleUpdateOrCreateLanding()
           }
-        }
+          }
         >
           <h3>Landing Page</h3>
 
@@ -576,6 +612,18 @@ export default function Admin() {
               }}
             />
             <img className='logo' src={logo} alt="" />
+          </ContentFormNew>
+
+          <ContentFormNew>
+            <label htmlFor="">Logo Branca</label>
+            <input
+              name="courseImage"
+              type="file"
+              onChange={(e) => {
+                handleUploadImage(e.target.files[0], setLogoBranca)
+              }}
+            />
+            <img className='logo' src={logoBranca} alt="" />
           </ContentFormNew>
 
           <ContentFormNew>
@@ -667,76 +715,49 @@ export default function Admin() {
         </button>
 
         <ModalContent
-          onSubmit={(e) => {
-            e.preventDefault()
-
-          }}
+          onSubmit={
+            (e) =>{
+              e.preventDefault()
+              handleCreateOrUpdateSocialMedia()
+            }
+          }
         >
           <h2>
             Mídias Sociais
           </h2>
-          {
-            socialMedias.map(
-              (e, i) => (
-                <ContentFormNew>
-                  <label htmlFor="">Icone</label>
-                  <ButtonsHolder>
-                    <select name="" id="">
-                      <option value=""></option>
-                    </select>
-                    <ActionButton
-                      className='btn-actions btn-trash'
-                      type='button'
-                      onClick={() => removeFormFields(i, socialMedias, setSocialMedias)}
-                    >
-                      <FiTrash />
-                    </ActionButton>
-                    <ActionButton
-                      type='button'
-                      className='btn-actions'
-                      onClick={() => addFormFields(socialMediasNew, setSocialMediasNew)}
-                    >
-                      <FiPlus />
-                    </ActionButton>
-                  </ButtonsHolder>
-                  <label htmlFor="">URL</label>
-                  <input type="text" />
-                  <hr />
-                </ContentFormNew>
-              )
-            )
-          }
-          {
-            socialMediasNew.map(
-              (e, i) => (
-                <ContentFormNew>
-                  <label htmlFor="">Icone</label>
-                  <ButtonsHolder>
-                    <select name="" id="">
-                      <option value=""></option>
-                    </select>
-                    <ActionButton
-                      className='btn-actions btn-trash'
-                      type='button'
-                      onClick={() => removeFormFields(i, socialMediasNew, setSocialMediasNew)}
-                    >
-                      <FiTrash />
-                    </ActionButton>
-                    <ActionButton
-                      type='button'
-                      className='btn-actions'
-                      onClick={() => addFormFields(socialMediasNew, setSocialMediasNew)}
-                    >
-                      <FiPlus />
-                    </ActionButton>
-                  </ButtonsHolder>
-                  <label htmlFor="">URL</label>
-                  <input type="text" />
-                  <hr />
-                </ContentFormNew>
-              )
-            )
-          }
+
+
+          <ContentFormNew>
+            <label htmlFor="">Link do Facebook</label>
+            <input
+              type="text"
+              value={facebook}
+              onChange={(e) => setFacebook(e.target.value)}
+            />
+          </ContentFormNew>
+
+
+
+          <ContentFormNew>
+            <label htmlFor="">Link do Instagram</label>
+            <input
+              type="text"
+              value={instagram}
+              onChange={(e) => setInstagram(e.target.value)}
+            />
+          </ContentFormNew>
+
+
+
+          <ContentFormNew>
+            <label htmlFor="">Link do Whatsapp</label>
+            <input
+              type="text"
+              value={whatsapp}
+              onChange={(e) => setWhatsapp(e.target.value)}
+            />
+          </ContentFormNew>
+
           {loading ? (
             <img
               width="40px"
@@ -746,15 +767,21 @@ export default function Admin() {
               alt="Loading"
             />
           ) : (
+            
+            // <input 
+            // type="submit"
+            // value="ente"
+            // />
             <SubmitButton
               title="Enviar"
             />
+            
           )}
         </ModalContent>
       </Modal>
 
-{/* 
-====================================   SOCIAL MEDIA   ==============================================
+      {/* 
+====================================   ABOUT MODAL   ==============================================
 */}
 
       <Modal
@@ -905,7 +932,7 @@ export default function Admin() {
         </ModalContent>
       </Modal>
 
-{/* 
+      {/* 
 ====================================    SLIDER    ==============================================
 */}
 
@@ -944,7 +971,7 @@ export default function Admin() {
                       // TODO handle change no upload porra!
                       onChange={
                         (e) => handleChangeStateSlide(i, e, sliders, setSliders)
-                    }
+                      }
                     />
                     <ActionButton
                       className='btn-actions btn-trash'
@@ -965,10 +992,10 @@ export default function Admin() {
                   </ButtonsHolder>
                   <label htmlFor=""> Texto alternativo para deficientes visuais</label>
                   <input
-                  type="text"
-                  defaultValue={e.texto}
-                  name="texto"
-                  onChange={(e) => handleChangeState(i, e, slidersNew, setSlidersNew)}
+                    type="text"
+                    defaultValue={e.texto}
+                    name="texto"
+                    onChange={(e) => handleChangeState(i, e, slidersNew, setSlidersNew)}
                   />
                   <img src={e.imagem} alt="" />
                   <hr />
@@ -977,45 +1004,45 @@ export default function Admin() {
             )
           }
 
-          {
-            slidersNew.map(
-              (e, i) => (
-                <ContentFormNew>
-                  <label htmlFor="">Imagem</label>
-                  <ButtonsHolder>
+            {
+              slidersNew.map(
+                (e, i) => (
+                  <ContentFormNew>
+                    <label htmlFor="">Imagem</label>
+                    <ButtonsHolder>
+                      <input
+                        type="file"
+                        name='imagem'
+                        onChange={(e) => handleChangeStateSlide(i, e, slidersNew, setSlidersNew)}
+                      />
+                      <ActionButton
+                        className='btn-actions btn-trash'
+                        type='button'
+                        onClick={() => removeFormFields(i, slidersNew, setSlidersNew)}
+                      >
+                        <FiTrash />
+                      </ActionButton>
+                    </ButtonsHolder>
+                    <label htmlFor=""> Texto alternativo para deficientes visuais </label>
                     <input
-                      type="file"
-                      name='imagem'
-                      onChange={(e) => handleChangeStateSlide(i, e, slidersNew, setSlidersNew)}
+                      type="text"
+                      name="texto"
+                      onChange={(e) => handleChangeState(i, e, slidersNew, setSlidersNew)}
                     />
-                    <ActionButton
-                      className='btn-actions btn-trash'
-                      type='button'
-                      onClick={() => removeFormFields(i, slidersNew, setSlidersNew)}
-                    >
-                      <FiTrash />
-                    </ActionButton>
-                  </ButtonsHolder>
-                  <label htmlFor=""> Texto alternativo para deficientes visuais </label>
-                  <input
-                  type="text"
-                  name="texto"
-                  onChange={(e) => handleChangeState(i, e, slidersNew, setSlidersNew)}
-                  />
-                  <img src={e.imagem} alt="" />
+                    <img src={e.imagem} alt="" />
 
-                  <hr />
-                </ContentFormNew>
+                    <hr />
+                  </ContentFormNew>
+                )
               )
-            )
-          }
+            }
           <ActionButton
             type='button'
             className='btn-actions'
             onClick={() => addFormFields(slidersNew, setSlidersNew)}
           >
             <FiPlus />
-        </ActionButton>
+          </ActionButton>
 
           {loading ? (
             <img
@@ -1032,7 +1059,7 @@ export default function Admin() {
           )}
         </ModalContent>
       </Modal>
-{/* 
+      {/* 
 ====================================    Categorias    ==============================================
 */}
 
@@ -1105,7 +1132,7 @@ export default function Admin() {
             onClick={() => openModalCategoriesNew()}
           >
             <FiPlus />
-        </ActionButton>
+          </ActionButton>
 
           {loading ? (
             <img
@@ -1152,15 +1179,15 @@ export default function Admin() {
           <ContentFormNew>
             <label htmlFor=""> Titulo</label>
             <input
-            type="text"
-            onChange={e => setCategoriaTitulo(e.target.value)}
-             />
+              type="text"
+              onChange={e => setCategoriaTitulo(e.target.value)}
+            />
           </ContentFormNew>
           {
             categoriasNew.map(
               (e, i) => (
                 <ContentFormNew>
-                <label htmlFor=""> Titulo</label>
+                  <label htmlFor=""> Titulo</label>
                   <ButtonsHolder>
                     <input
                       type="text"
@@ -1168,7 +1195,7 @@ export default function Admin() {
                       // TODO handle change no upload  porra!
                       onChange={
                         (e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)
-                    }
+                      }
                     />
                     <ActionButton
                       className='btn-actions btn-trash'
@@ -1177,7 +1204,7 @@ export default function Admin() {
                     >
                       <FiTrash />
                     </ActionButton>
-                    
+
                     <ActionButton
                       type='button'
                       className='btn-actions'
@@ -1185,7 +1212,7 @@ export default function Admin() {
                     >
                       <FiPlus />
                     </ActionButton>
-                   
+
                   </ButtonsHolder>
 
                   <ContentFormNew>
@@ -1241,7 +1268,7 @@ export default function Admin() {
 
 
 
-  {/* ====================================  Update  Categorias   */}
+      {/* ====================================  Update  Categorias   */}
       <Modal
         isOpen={isOpenModalCategoriesChange}
         onRequestClose={closeModalCategoriesChange}
@@ -1268,17 +1295,17 @@ export default function Admin() {
           <ContentFormNew>
             <label htmlFor=""> Titulo</label>
             <input
-            type="text"
-            value={categoriaTitulo}
-            onChange={e => setCategoriaTitulo(e.target.value)}
-             />
+              type="text"
+              value={categoriaTitulo}
+              onChange={e => setCategoriaTitulo(e.target.value)}
+            />
           </ContentFormNew>
 
           {
             categoriaItemSeleted.map(
               (e, i) => (
                 <ContentFormNew>
-                <label htmlFor=""> Titulo</label>
+                  <label htmlFor=""> Titulo</label>
                   <ButtonsHolder>
                     <input
                       type="text"
@@ -1286,7 +1313,7 @@ export default function Admin() {
                       defaultValue={e.titulo}
                       onChange={
                         (e) => handleChangeState(i, e, categoriaItemSeleted, setCategoriaItemSeleted)
-                    }
+                      }
                     />
                     <ActionButton
                       className='btn-actions btn-trash'
@@ -1295,7 +1322,7 @@ export default function Admin() {
                     >
                       <FiTrash />
                     </ActionButton>
-                    
+
                     <ActionButton
                       type='button'
                       className='btn-actions'
@@ -1303,7 +1330,7 @@ export default function Admin() {
                     >
                       <FiPlus />
                     </ActionButton>
-                   
+
                   </ButtonsHolder>
 
                   <ContentFormNew>
@@ -1332,13 +1359,13 @@ export default function Admin() {
               )
             )
           }
-          
+
 
           {
             categoriasNew.map(
               (e, i) => (
                 <ContentFormNew>
-                <label htmlFor=""> Titulo</label>
+                  <label htmlFor=""> Titulo</label>
                   <ButtonsHolder>
                     <input
                       type="text"
@@ -1346,7 +1373,7 @@ export default function Admin() {
                       // TODO handle change no upload  porra!
                       onChange={
                         (e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)
-                    }
+                      }
                     />
                     <ActionButton
                       className='btn-actions btn-trash'
@@ -1355,7 +1382,7 @@ export default function Admin() {
                     >
                       <FiTrash />
                     </ActionButton>
-                    
+
                     <ActionButton
                       type='button'
                       className='btn-actions'
@@ -1363,7 +1390,7 @@ export default function Admin() {
                     >
                       <FiPlus />
                     </ActionButton>
-                   
+
                   </ButtonsHolder>
 
                   <ContentFormNew>
@@ -1414,7 +1441,7 @@ export default function Admin() {
             />
           )}
         </ModalContent>
-      </Modal>  
+      </Modal>
     </>
   );
 }
