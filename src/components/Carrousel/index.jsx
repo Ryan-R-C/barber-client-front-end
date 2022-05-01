@@ -59,7 +59,7 @@ const Carrousel = (
 
   return (
     <>
-      <CarrouselContainer>
+      <CarrouselContainer id="last-clone">
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
