@@ -44,6 +44,8 @@ export default function SignUp() {
     navigate('/', { replace: true } )
   }
 
+  
+
   return (
     <S.Container>
       <img src={login} alt='image sign up' />
