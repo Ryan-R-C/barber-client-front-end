@@ -56,4 +56,10 @@
         display: flex;
         width: 100%;
     }
+
+    .responsive-navbar__anchor{
+        color: white;
+        font-size: 30px;
+        /* background-color: blueviolet; */
+    }
 }
