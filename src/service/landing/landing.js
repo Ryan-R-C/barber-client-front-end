@@ -10,7 +10,6 @@ export default class landingService {
         data,
       })
 
-      console.log(response)
 
       .catch(() => {
         servidorErrorMessage()
