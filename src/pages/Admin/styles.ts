@@ -103,6 +103,21 @@ export const ContentFormNew = styled.div`
     font-size: 15px;
   }
 
+  p {
+    width: 466px;
+    margin: 10px 0;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+
+    &::placeholder {
+      color: #747474;
+    }
+    & + input {
+      margin-top: 1rem;
+    }
+  }
+
   input {
     height: 48px;
     width: 466px;
