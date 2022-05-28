@@ -122,10 +122,10 @@ export default function Admin() {
     setTitulo(firstLandingData?.titulo)
     setLogo(firstLandingData?.logo)
     setLogoBranca(firstLandingData?.logoBranca)
-    setBackgroundWide(firstLandingData.backgroundWide)
-    setBackgroundMobile(firstLandingData.backgroundMobile)
-    setBackgroundPricesMobile(firstLandingData.backgroundPricesMobile)
-    setBackgroundPricesWide(firstLandingData.backgroundPricesWide)
+    setBackgroundWide(firstLandingData?.backgroundWide)
+    setBackgroundMobile(firstLandingData?.backgroundMobile)
+    setBackgroundPricesMobile(firstLandingData?.backgroundPricesMobile)
+    setBackgroundPricesWide(firstLandingData?.backgroundPricesWide)
   }
 
   async function handleLoadSobre() {
@@ -146,8 +146,7 @@ export default function Admin() {
 
   async function handleLoadSocialMedias() {
     let SocialMediaData = await socialMediaService.list()
-    console.log("mnvkfjnvbfndvgjnsdjvnsdjvnsdjknv sdjknnj")
-    let socialMedia = SocialMediaData[0];
+    let socialMedia = SocialMediaData[0] || {};
     setSocialMedias(socialMedia)
     setFacebook(socialMedia?.facebook)
     setInstagram(socialMedia?.instagram)
@@ -218,8 +217,8 @@ export default function Admin() {
       sobreDesc: rawData.sobreDesc,
     }
     let isCreatedOrUpdated;
-    if(!sobre.id) isCreatedOrUpdated = await sobreService.create(data)
-    if(sobre.id) isCreatedOrUpdated =  await sobreService.update(sobre.id, data)
+    if(!sobre?.id) isCreatedOrUpdated = await sobreService.create(data)
+    if(sobre?.id) isCreatedOrUpdated =  await sobreService.update(sobre.id, data)
 
     handleLoadSobre()
     if (isCreatedOrUpdated) closeModalAbout()
@@ -534,14 +533,14 @@ export default function Admin() {
 
 
       <About
-        enderecoDesc={sobre.enderecoDesc}
-        enderecoTitulo={sobre.enderecoDesc}
-        faleConoscoTitulo={sobre.enderecoDesc}
-        faleConoscoDesc={sobre.enderecoDesc}
-        horFuncDesc={sobre.enderecoDesc}
-        horFuncTitulo={sobre.enderecoDesc}
-        sobreTitulo={sobre.sobreTitulo}
-        sobreDesc={sobre.sobreDesc}
+        enderecoDesc={sobre?.enderecoDesc}
+        enderecoTitulo={sobre?.enderecoDesc}
+        faleConoscoTitulo={sobre?.enderecoDesc}
+        faleConoscoDesc={sobre?.enderecoDesc}
+        horFuncDesc={sobre?.enderecoDesc}
+        horFuncTitulo={sobre?.enderecoDesc}
+        sobreTitulo={sobre?.sobreTitulo}
+        sobreDesc={sobre?.sobreDesc}
       />
 
       <Prices
@@ -811,7 +810,7 @@ export default function Admin() {
             <label htmlFor="">Título</label>
             <input
               type="text"
-              defaultValue={sobre.horFuncTitulo}
+              defaultValue={sobre?.horFuncTitulo}
               {...register('horFuncTitulo', {
                 required: {
                   value: true,
@@ -822,7 +821,7 @@ export default function Admin() {
             <label htmlFor="">Descrição</label>
             <input
               type="text"
-              defaultValue={sobre.horFuncDesc}
+              defaultValue={sobre?.horFuncDesc}
               {...register('horFuncDesc', {
                 required: {
                   value: true,
@@ -840,7 +839,7 @@ export default function Admin() {
             <label htmlFor="">Título</label>
             <input
               type="text"
-              defaultValue={sobre.enderecoTitulo}
+              defaultValue={sobre?.enderecoTitulo}
               {...register('enderecoTitulo', {
                 required: {
                   value: true,
@@ -851,7 +850,7 @@ export default function Admin() {
             <label htmlFor="">Descrição</label>
             <input
               type="text"
-              defaultValue={sobre.enderecoDesc}
+              defaultValue={sobre?.enderecoDesc}
               {...register('enderecoDesc', {
                 required: {
                   value: true,
@@ -868,7 +867,7 @@ export default function Admin() {
             <label htmlFor="">Título</label>
             <input
               type="text"
-              defaultValue={sobre.faleConoscoTitulo}
+              defaultValue={sobre?.faleConoscoTitulo}
               {...register('faleConoscoTitulo', {
                 required: {
                   value: true,
@@ -895,7 +894,7 @@ export default function Admin() {
             <label htmlFor="">Título</label>
             <input
               type="text"
-              defaultValue={sobre.sobreTitulo}
+              defaultValue={sobre?.sobreTitulo}
               {...register('sobreTitulo', {
                 required: {
                   value: true,
@@ -906,7 +905,7 @@ export default function Admin() {
             <label htmlFor="">Descrição</label>
             <input
               type="text"
-              defaultValue={sobre.sobreDesc}
+              defaultValue={sobre?.sobreDesc}
               {...register('sobreDesc', {
                 required: {
                   value: true,
