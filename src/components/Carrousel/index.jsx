@@ -81,7 +81,7 @@ const Carrousel = (
                 key={index}
                 >
 
-                  <img src={banner.imagem} alt={banner.texto} />
+                  <img src={banner?.imagem} alt={banner?.texto} />
 
                 </SwiperSlide>
               ) 
