@@ -57,14 +57,14 @@ function Landing  ( {
                 <nav className="header-page__nav">
                     <ul className="header-page__unored-list">
                         {
-                        pageComponents.map(
+                        pageComponents[0] && pageComponents.map(
                           (component) => (
                             <li
                             className="header-page__list-element"> 
                               <a
-                              href={component.href}
+                              href={component?.href}
                               className="header-page__anchor">
-                                {component.title}
+                                {component?.title}
                               </a>
                             </li>
 
@@ -77,15 +77,15 @@ function Landing  ( {
             </div>
             <div className="header-page__holder">
                 <nav className="header-page__nav">
-                  <a href={whatsappLink} className="btn">Agendar</a>
+                  <a href={whatsappLink || ""} className="btn">Agendar</a>
                 </nav>
                 <nav className="header-page__nav">
                     <ul className="header-page__unored-list social-media">
                         <li className="header-page__list-element">
-                          <a href={facebookLink}  target="_blank" className="header-page__anchor">Facebook</a>
+                          <a href={facebookLink || ""}  target="_blank" className="header-page__anchor">Facebook</a>
                         </li>
                         <li className="header-page__list-element">
-                          <a href={instagramLink} target="_blank" className="header-page__anchor">Instagram</a>
+                          <a href={instagramLink || ""} target="_blank" className="header-page__anchor">Instagram</a>
                         </li>
                     </ul>
                 </nav>
