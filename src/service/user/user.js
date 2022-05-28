@@ -171,7 +171,7 @@ export default class user {
   static async loadUser(token) {
     const response = await axios({
       method: 'get',
-      url: `${ip}:${porta}/api/auth/me`,
+      url: `${ip}/api/auth/me`,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
