@@ -113,11 +113,11 @@ const Prices = (
                     </article>
                     */}
                     {
-                    categories.map(
+                    categories?.map(
                         category => (
                             <article className="prices__section prices__section--last-one intro-disabled">
                                 <h2 className="prices__header2">
-                                    {category.titulo}
+                                    { category.titulo }
                                 </h2>
                                 {
                                 category.categoriaItem.map(
@@ -127,8 +127,8 @@ const Prices = (
                                             {categoryItem.titulo}
                                         </h3>
                                         <p className="prices__pragraph prices__pragraph--last">
-                                            categoryItem.desc<br />
-                                            categoryItem.preco
+                                            { categoryItem.desc  }<br />
+                                            { categoryItem.preco }
                                         </p>
                                     </div>
                                     )
