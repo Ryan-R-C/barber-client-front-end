@@ -71,37 +71,37 @@ export default function Home() {
   return (
     <>
       <Menu
-      logoBranca={landing.logoBranca}
-      facebookLink={socialMedias.facebook}
-      instagramLink={socialMedias.instagram}
-      whatsappLink={socialMedias.whatsapp}
+      logoBranca={landing?.logoBranca}
+      facebookLink={socialMedias?.facebook}
+      instagramLink={socialMedias?.instagram}
+      whatsappLink={socialMedias?.whatsapp}
       />
       <Landing
-        titulo={landing.titulo}
-        logo={landing.logo}
-        logoBranca={landing.logoBranca}
-        backgroundWide={landing.backgroundWide}
-        backgroundMobile={landing.backgroundMobile}
-        facebookLink={socialMedias.facebook}
-        instagramLink={socialMedias.instagram}
-        whatsappLink={socialMedias.whatsapp}
+        titulo={landing?.titulo}
+        logo={landing?.logo}
+        logoBranca={landing?.logoBranca}
+        backgroundWide={landing?.backgroundWide}
+        backgroundMobile={landing?.backgroundMobile}
+        facebookLink={socialMedias?.facebook}
+        instagramLink={socialMedias?.instagram}
+        whatsappLink={socialMedias?.whatsapp}
       />
 
 
       <About
-        enderecoDesc={sobre.enderecoDesc}
-        enderecoTitulo={sobre.enderecoDesc}
-        faleConoscoTitulo={sobre.enderecoDesc}
-        faleConoscoDesc={sobre.enderecoDesc}
-        horFuncDesc={sobre.enderecoDesc}
-        horFuncTitulo={sobre.enderecoDesc}
-        sobreTitulo={sobre.sobreTitulo}
-        sobreDesc={sobre.sobreDesc}
+        enderecoDesc={sobre?.enderecoDesc}
+        enderecoTitulo={sobre?.enderecoDesc}
+        faleConoscoTitulo={sobre?.enderecoDesc}
+        faleConoscoDesc={sobre?.enderecoDesc}
+        horFuncDesc={sobre?.enderecoDesc}
+        horFuncTitulo={sobre?.enderecoDesc}
+        sobreTitulo={sobre?.sobreTitulo}
+        sobreDesc={sobre?.sobreDesc}
       />
 
       <Prices
-        backgroundPricesMobile={landing.backgroundPricesMobile}
-        backgroundPricesWide={landing.backgroundPricesWide}
+        backgroundPricesMobile={landing?.backgroundPricesMobile}
+        backgroundPricesWide={landing?.backgroundPricesWide}
         categories={categorias}
       />
       <Carrousel
