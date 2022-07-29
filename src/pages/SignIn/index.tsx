@@ -36,9 +36,10 @@ export default function SignIn() {
     console.log("canLogin")
     console.log(canLogin)
 
-    if(!canLogin) return
+    if(!canLogin) return;
     
-    window.location.pathname = '/'
+    if(canLogin !== 'admin') window.location.pathname = '/'
+    if(canLogin === 'admin') window.location.pathname = '/admin'
 
   }
 

@@ -44,7 +44,8 @@ const About = (
             </section>
             <section className="about__section intro-disabled">
                 <h2 className="about__header"> {faleConoscoTitulo} </h2>
-                <address className="about__paragraph bold"><a href="mailto:Brunobarbeariadoparra@gmail.com" className="anchor-tag-white">Brunobarbeariadoparra@gmail.com</a>
+                <address className="about__paragraph bold">
+                {/* <a href="mailto:Brunobarbeariadoparra@gmail.com" className="anchor-tag-white">Brunobarbeariadoparra@gmail.com</a> */}
                 <br />
                 { faleConoscoDesc }
                 </address>

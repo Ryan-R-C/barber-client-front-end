@@ -15,7 +15,11 @@
     -moz-background-size: cover;
     -webkit-background-size:cover;
     background-size: cover;
+}
 
+h1 span {
+    color: var(--second-color);
+    text-shadow: 2px 3px #000000 ;
 }
 @media (min-width: 768px) {
     #header{

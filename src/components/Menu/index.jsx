@@ -5,7 +5,7 @@ import './nav.css'
 import './nav-responsive.css'
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+//props
 const Menu = (
   {
     facebookLink,
@@ -14,6 +14,7 @@ const Menu = (
     logoBranca
   }
 ) => {
+  //props.facebookLink
 
   const [isMenuActive, setIsMenuActive] = useState(false);
 

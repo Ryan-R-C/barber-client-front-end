@@ -100,10 +100,10 @@ export const ContentFormNew = styled.div`
   }
 
   p{
-    font-size: 15px;
+    font-size: 20px;
   }
 
-  p {
+  p, label {
     width: 466px;
     margin: 10px 0;
     @media (max-width: 768px) {

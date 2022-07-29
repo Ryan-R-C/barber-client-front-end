@@ -14,9 +14,9 @@ const RoutesApp = () => {
       <Routes>
         <Route path='/'                    element={<Home   />}    />
         <Route path='/admin'               element={<Admin  />}   />
-        <Route path='/signin'              element={<SignIn />}  />
+        <Route path='/login'              element={<SignIn />}  />
         <Route path='/cadastro'            element={<SignUp />}  />
-        <Route path='/test'            element={<TEST />}  />
+        <Route path='/test'                element={<TEST />}  />
 
       </Routes>
     </BrowserRouter>

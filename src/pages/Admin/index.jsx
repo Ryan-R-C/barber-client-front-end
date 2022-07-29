@@ -16,7 +16,7 @@ import currencyConfig from '../../utils/currenryConfig';
 import { SubmitButton } from '../../ui/components/SubmitButton';
 import { useForm } from 'react-hook-form';
 import { TextField } from '../../ui/components/TextField';
-import uploadImage from '../../service/imagem/upload';
+import uploadImage from '../../service/imagem/uploadToBackend';
 import { toast } from 'react-toastify';
 import landingService from '../../service/landing/landing';
 import { FiEdit, FiPlus, FiTrash, FiX } from 'react-icons/fi';
@@ -29,6 +29,7 @@ import { isReturnStatement } from 'typescript';
 import categoriaItemService from '../../service/categoriaItem/categoriaItem';
 import socialMediaService from '../../service/socialMedia/socialMedia';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import uploadImage2 from '../../service/imagem/uploadToFireBase';
 
 
 
@@ -144,6 +145,11 @@ export default function Admin() {
     setCategorias(categoriaData || [])
   }
 
+  async function handleDeleteCategoria(id){
+    await categoriaService.delete(id)
+    handleLoadCategorias()
+  }
+
   async function handleLoadSocialMedias() {
     let SocialMediaData = await socialMediaService.list()
     let socialMedia = SocialMediaData[0] || {};
@@ -177,7 +183,7 @@ export default function Admin() {
   // upload images
   async function handleUploadImage(image, setImage) {
     if (image.type.includes('image')) {
-      return uploadImage(image, setImage)
+      return uploadImage2(image, setImage)
     }
     else {
       toast.error('Arquivo inválido!')
@@ -257,11 +263,13 @@ export default function Admin() {
     console.log(data)
     console.log("socialMedias.id")
     console.log(socialMedias.id)
+    
     let createdSocialMedia;
+
     if(!socialMedias.id) createdSocialMedia = await socialMediaService.create(data)
     if(socialMedias.id) createdSocialMedia = await socialMediaService.update(socialMedias.id, data)
     
-    // closeModalSocialMedia()
+    closeModalSocialMedia()
   }
 
   //categories
@@ -275,6 +283,9 @@ export default function Admin() {
     categoriasNew.map(
       async (e) => {
         e.categoriaId = newCategory.id
+
+        if(!e.desc) e.desc = ''
+
         console.log(e)
         let newCategorieItem = await categoriaItemService.create(e)
         console.log(newCategorieItem)
@@ -313,7 +324,15 @@ export default function Admin() {
 
     if (updatedCategory) closeModalCategoriesChange()
 
-    handleLoadCategorias()
+    setTimeout(
+      () => {
+
+        handleLoadCategorias()
+      },
+      1000
+    )
+
+    
   }
 
 
@@ -333,8 +352,13 @@ export default function Admin() {
 
     console.log("e.target.value")
     console.log(e.target.value)
+    console.log(i)
 
     const newFormValues = [...state]
+
+    console.log(newFormValues)
+    console.log(newFormValues[i])
+
     // @ts-ignore
     newFormValues[i][e.target.name] = e.target.value
 
@@ -439,6 +463,9 @@ export default function Admin() {
   }
 
 
+  console.log("categorias")
+  console.log(categorias)
+
   return (
     <>
 
@@ -534,11 +561,11 @@ export default function Admin() {
 
       <About
         enderecoDesc={sobre?.enderecoDesc}
-        enderecoTitulo={sobre?.enderecoDesc}
-        faleConoscoTitulo={sobre?.enderecoDesc}
-        faleConoscoDesc={sobre?.enderecoDesc}
-        horFuncDesc={sobre?.enderecoDesc}
-        horFuncTitulo={sobre?.enderecoDesc}
+        enderecoTitulo={sobre?.enderecoTitulo}
+        faleConoscoTitulo={sobre?.faleConoscoTitulo}
+        faleConoscoDesc={sobre?.faleConoscoDesc}
+        horFuncDesc={sobre?.horFuncDesc}
+        horFuncTitulo={sobre?.horFuncTitulo}
         sobreTitulo={sobre?.sobreTitulo}
         sobreDesc={sobre?.sobreDesc}
       />
@@ -582,6 +609,7 @@ export default function Admin() {
 
 
         <ModalContent
+        encType="multipart/form-data"
           onSubmit={e => {
             e.preventDefault()
             handleUpdateOrCreateLanding()
@@ -714,6 +742,7 @@ export default function Admin() {
         </button>
 
         <ModalContent
+          encType="multipart/form-data"
           onSubmit={
             (e) =>{
               e.preventDefault()
@@ -797,6 +826,7 @@ export default function Admin() {
           <FiX />
         </button>
         <ModalContent
+          encType="multipart/form-data"
           onSubmit={handleSubmit(handleUpdateOrCreateAbout)}
         >
           <h2>
@@ -949,6 +979,7 @@ export default function Admin() {
           <FiX />
         </button>
         <ModalContent
+          encType="multipart/form-data"
           onSubmit={(e) => {
             e.preventDefault()
             handleUpdateOrCreateSlider()
@@ -962,7 +993,7 @@ export default function Admin() {
             sliders.map(
               (e, i) => (
                 <ContentFormNew>
-                  <label htmlFor="">Imagem</label>
+                  <label htmlFor="">Titulo</label>
                   <ButtonsHolder>
                     <input
                       type="file"
@@ -1088,7 +1119,7 @@ export default function Admin() {
             categorias.map(
               (e, i) => (
                 <ContentFormNew>
-                  <label htmlFor="">Imagem</label>
+                  {/* <label htmlFor="">Titulo Principal</label> */}
                   <ButtonsHolder>
                     <p>
                       {
@@ -1098,7 +1129,11 @@ export default function Admin() {
                     <ActionButton
                       className='btn-actions btn-trash'
                       type='button'
-                      onClick={() => removeFormFields(i, categorias, setCategorias)}
+                      onClick={() => {
+                        handleDeleteCategoria(e.id)
+                        removeFormFields(i, categorias, setCategorias)
+                      }
+                    }
                     >
                       <FiTrash />
                     </ActionButton>
@@ -1176,7 +1211,7 @@ export default function Admin() {
             Categorias
           </h2>
           <ContentFormNew>
-            <label htmlFor=""> Titulo</label>
+            <label htmlFor=""> Titulo Principal</label>
             <input
               type="text"
               onChange={e => setCategoriaTitulo(e.target.value)}
@@ -1282,6 +1317,7 @@ export default function Admin() {
           <FiX />
         </button>
         <ModalContent
+          encType="multipart/form-data"
           onSubmit={(e) => {
             e.preventDefault()
             handleUpdateCategories()
@@ -1292,7 +1328,7 @@ export default function Admin() {
             Categorias
           </h2>
           <ContentFormNew>
-            <label htmlFor=""> Titulo</label>
+            <label htmlFor=""> Titulo Principal</label>
             <input
               type="text"
               value={categoriaTitulo}
@@ -1338,7 +1374,7 @@ export default function Admin() {
                       type="text"
                       name='desc'
                       defaultValue={e.desc}
-                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
+                      onChange={(e) => handleChangeState(i, e, categoriaItemSeleted, setCategoriaItemSeleted)}
                     />
                   </ContentFormNew>
 
@@ -1349,7 +1385,7 @@ export default function Admin() {
                       defaultValue={e.preco}
                       type="text"
                       name='preco'
-                      onChange={(e) => handleChangeState(i, e, categoriasNew, setCategoriasNew)}
+                      onChange={(e) => handleChangeState(i, e, categoriaItemSeleted, setCategoriaItemSeleted)}
                     />
                   </ContentFormNew>
 

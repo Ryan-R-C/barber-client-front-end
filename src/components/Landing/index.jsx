@@ -18,12 +18,13 @@ function Landing  ( {
 
   useEffect(() => {
     const handler = (e) => setMatches(e.matches);
+    console.log(mediaMatch.matches)
     mediaMatch.addListener(handler);
     return () => mediaMatch.removeListener(handler);
   }
   );
 
-  const headerStyle = {
+  const headerStyle = { // backgroundWide
     background: (isRowBased) => ({
       background: isRowBased ? `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("${backgroundWide}") no-repeat` : `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(${backgroundMobile}) no-repeat`
     })
@@ -96,9 +97,7 @@ function Landing  ( {
           de homem<br/>
           <span className='title-marker'>com estílo</span>
         </h1> */}
-        <h1 id="header-page__title">
-          {titulo}
-        </h1>
+        <h1 id="header-page__title" dangerouslySetInnerHTML={{ __html: titulo }} />
     </header>   
     </>
   )

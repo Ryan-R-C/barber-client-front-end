@@ -9,9 +9,6 @@ export default class sobreService {
       .post('sobre', {
         data,
       })
-
-      console.log(response)
-
       .catch(() => {
         servidorErrorMessage()
       })

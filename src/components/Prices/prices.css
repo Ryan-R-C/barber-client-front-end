@@ -8,6 +8,7 @@
     -moz-background-size: cover !important;
     -webkit-background-size:cover !important;
     background-size: cover !important;
+    background-position-y: center;
     height: 100%;
 }
 
