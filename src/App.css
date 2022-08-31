@@ -69,12 +69,12 @@ a{
   }
   
   .react-modal-content {
-    margin: 40px 0;
+    margin: 5vh 0;
     position: relative;
     padding: 3rem;
     width: 100%;
     max-width: 576px;
-    max-height: 650px;
+    max-height: 75vh;
     height: 100%;
     overflow: auto;
     background: white;
@@ -93,3 +93,4 @@ a{
 .react-modal-close:hover {
   filter: brightness(0.8);
 }
+

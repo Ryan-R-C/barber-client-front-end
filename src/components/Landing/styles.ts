@@ -30,15 +30,14 @@ z-index: 1;
 
     img {
         width: 100%;
-        height: 10%
+        height: 10%;
         object-fit: cover;
-        border-radius:6px
+        border-radius:6px;
         background-color: blue;  
         margin: 0 auto;
         position: relative;
         width: 100%;
-        height: 10%
+        height: 10%;
         object-fit: cover;
-        }
     }
 `;

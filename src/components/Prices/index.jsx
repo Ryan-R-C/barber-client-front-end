@@ -23,7 +23,7 @@ const Prices = (
 
     const headerStyle = {
         background: (isRowBased) => ({
-            background: isRowBased ? `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("${backgroundPricesWide}")` : `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(${backgroundPricesMobile})`
+            background: isRowBased ? `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("${backgroundPricesWide}") 50% 50%` : `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(${backgroundPricesMobile}) 50% 50%` 
         })
     }
 

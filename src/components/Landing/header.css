@@ -1,8 +1,6 @@
 #header{
     /* background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("https://i.ibb.co/7vLFMsG/a-Copia.jpg") no-repeat; */
-    background-position: bottom !important;
-    background-attachment: fixed !important;
-    background-size: cover !important;
+
     height: 100vh;
     min-height: 400px;
     margin: .4rem;

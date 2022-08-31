@@ -26,7 +26,10 @@ function Landing  ( {
 
   const headerStyle = { // backgroundWide
     background: (isRowBased) => ({
-      background: isRowBased ? `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("${backgroundWide}") no-repeat` : `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(${backgroundMobile}) no-repeat`
+      background: isRowBased ? `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("${backgroundWide}") no-repeat 50% 0%` : `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(${backgroundMobile}) no-repeat 50% 100%`,
+      backgroundPosition: isRowBased ? 'bottom !important' : 'top !important',
+      backgroundAttachment: 'fixed !important',
+      backgroundSize: 'cover !important',
     })
   }
 

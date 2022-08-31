@@ -90,11 +90,11 @@ export default function Home() {
 
       <About
         enderecoDesc={sobre?.enderecoDesc}
-        enderecoTitulo={sobre?.enderecoDesc}
-        faleConoscoTitulo={sobre?.enderecoDesc}
-        faleConoscoDesc={sobre?.enderecoDesc}
-        horFuncDesc={sobre?.enderecoDesc}
-        horFuncTitulo={sobre?.enderecoDesc}
+        enderecoTitulo={sobre?.enderecoTitulo}
+        faleConoscoTitulo={sobre?.faleConoscoTitulo}
+        faleConoscoDesc={sobre?.faleConoscoDesc}
+        horFuncDesc={sobre?.horFuncDesc}
+        horFuncTitulo={sobre?.horFuncTitulo}
         sobreTitulo={sobre?.sobreTitulo}
         sobreDesc={sobre?.sobreDesc}
       />

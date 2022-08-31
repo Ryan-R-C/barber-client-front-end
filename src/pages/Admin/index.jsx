@@ -30,6 +30,7 @@ import categoriaItemService from '../../service/categoriaItem/categoriaItem';
 import socialMediaService from '../../service/socialMedia/socialMedia';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import uploadImage2 from '../../service/imagem/uploadToFireBase';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -51,6 +52,9 @@ export default function Admin() {
   function handleCheckLogin() {
     if (!token) window.location.pathname = ''
   }
+
+  const navigate = useNavigate()
+
   /*
   =====================================================================================================
                                             STATES
@@ -83,8 +87,6 @@ export default function Admin() {
   const [backgroundPricesWide, setBackgroundPricesWide] = useState("")
 
   // About States 
-  const [horario, setHorario] = useState([])
-  const [endereco, setEndereco] = useState([])
   const [sobre, setSobre] = useState([])
   // Categories States
   const [categorias, setCategorias] = useState([])
@@ -106,7 +108,6 @@ export default function Admin() {
   // Slider States
   const [sliders, setSliders] = useState([])
   const [slidersNew, setSlidersNew] = useState([{}])
-
 
   /*
   =====================================================================================================
@@ -234,14 +235,15 @@ export default function Admin() {
   async function handleUpdateOrCreateSlider() {
     slidersNew.map(
       (e) => {
-        sliderService.create(e)
+        if (!e.nome || !e.imagem)
+          sliderService.create(e)       
       }
     )
 
     sliders.map(
       (e) => {
-        if (!e.id) return;
-        sliderService.update(e.id, e)
+        if (!e.id || !e.nome || !e.imagem)
+          sliderService.update(e.id, e)
       }
     )
 
@@ -375,7 +377,10 @@ export default function Admin() {
 
 
   const handleChangeStateSlide = async (i, e, state, setState) => {
-    let image = await handleUploadImage(e.target.files[0])
+
+
+    // sliderImageHandler, setSliderImageHandler
+    let image = await handleUploadImage(e.target.files[0] )
 
     const newFormValues = [...state]
     // @ts-ignore
@@ -461,16 +466,17 @@ export default function Admin() {
   function closeModalSliderNew() {
     setIsOpenModalSliderNew(false)
   }
+  /*
+  */
 
-
-  console.log("categorias")
-  console.log(categorias)
-
+  function logOut(){
+    localStorage.clear()
+    navigate("/")
+  }
   return (
     <>
 
       <FlexContainer>
-
         <FlexButtons>
           <button
             onClick={openModalLanding}
@@ -495,16 +501,6 @@ export default function Admin() {
           </button>
         </FlexButtons>
 
-        {/*
-        <FlexButtons>
-          <button
-          onClick={openModalCategoriesNew}
-          >
-            Abrir CategoriesNew
-          </button>
-        </FlexButtons>
-        */}
-
         <FlexButtons>
           <button
             onClick={openModalSocialMedia}
@@ -521,18 +517,16 @@ export default function Admin() {
           </button>
         </FlexButtons>
 
-        {/*
-        <FlexButtons>
-          <button
-          onClick={openModalSliderNew}
-          >
-            Abrir SliderNew
-          </button>
-        </FlexButtons>
-        */}
-
       </FlexContainer>
 
+
+        <FlexButtons>
+          <button
+            onClick={logOut}
+          >
+            Sair
+          </button>
+        </FlexButtons>
 
 
       {/* 
