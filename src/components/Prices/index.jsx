@@ -1,7 +1,8 @@
 
-import { Image } from './styles';
+import { Image, Item } from './styles';
 import './prices.css'
 import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Prices = (
     {
@@ -121,7 +122,10 @@ const Prices = (
                                 {
                                 category.categoriaItem.map(
                                     categoryItem => (
-                                    <div className="height-25 height-25--dont-break">
+                                    <Item>
+                                        <div>
+                                            <i class="fa-sharp fa-solid fa-scissors"></i>
+                                        </div>
                                         <h3 className="prices__header3">
                                             {categoryItem.titulo}
                                         </h3>
@@ -129,7 +133,7 @@ const Prices = (
                                             { categoryItem.desc  }<br />
                                             { categoryItem.preco }
                                         </p>
-                                    </div>
+                                    </Item>
                                     )
                                 )
                                 }
