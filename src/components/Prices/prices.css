@@ -18,6 +18,11 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.prices__container__item{
+    
+}
+
 .prices__section{
     box-sizing: border-box;
     margin: 0 auto;
