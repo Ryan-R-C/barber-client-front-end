@@ -23,7 +23,7 @@
 html, body {
     text-rendering: optimizeLegibility;
     max-width: 100vw;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 html{
