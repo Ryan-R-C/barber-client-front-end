@@ -24,10 +24,20 @@ function Landing  ( {
   }
   );
 
+  useEffect(
+    () => {
+      const handler = (e) => setMatches(e.matches);
+      console.log(mediaMatch.matches)
+      mediaMatch.addListener(handler);
+      return () => mediaMatch.removeListener(handler);
+    }, [backgroundMobile, backgroundWide]
+  )
+
   const headerStyle = { // backgroundWide
     background: (isRowBased) => ({
-      background: isRowBased ? `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("${backgroundWide}") no-repeat 50% 0%` : `linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url(${backgroundMobile}) no-repeat 50% 100%`,
-      backgroundPosition: isRowBased ? 'bottom !important' : 'top !important',
+      backgroundImage:`linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("${ isRowBased ? backgroundWide : backgroundMobile}")` ,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: isRowBased ? '50%, 0%, bottom !important' : '50%, 100%,top !important',
       backgroundAttachment: 'fixed !important',
       backgroundSize: 'cover !important',
     })
