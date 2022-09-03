@@ -35,11 +35,11 @@ function Landing  ( {
 
   const headerStyle = { // backgroundWide
     background: (isRowBased) => ({
-      backgroundImage:`linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("${ isRowBased ? backgroundWide : backgroundMobile}")` ,
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: isRowBased ? '50%, 0%, bottom !important' : '50%, 100%,top !important',
-      backgroundAttachment: 'fixed !important',
+      
       backgroundSize: 'cover !important',
+
+      backgroundRepeat: 'no-repeat',
+      backgroundImage:`linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0.5)), url("${ isRowBased ? backgroundWide : backgroundMobile}")` ,
     })
   }
 
